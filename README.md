@@ -1,4 +1,4 @@
-# f110-avp
+# F110-AVP
 F110 Autonomout Valet Parking with Ouster LiDAR
 
 ## Installation
