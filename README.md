@@ -1,6 +1,8 @@
 # F110-AVP
 F110 Autonomout Valet Parking with Ouster LiDAR
 
+## To Run the Experiment
+
 ## Code Structure
 
 ### Code on System
