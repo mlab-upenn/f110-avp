@@ -3,6 +3,10 @@ F110 Autonomout Valet Parking with Ouster LiDAR
 
 ## Code Structure
 
+### Code on System
+
+### Code on Vehicle
+
 
 ## Installation
 1. Clone this repo.
