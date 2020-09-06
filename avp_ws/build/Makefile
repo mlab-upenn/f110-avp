@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/src
+CMAKE_SOURCE_DIR = /home/lucerna/Documents/f110-avp/avp_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/build
+CMAKE_BINARY_DIR = /home/lucerna/Documents/f110-avp/avp_ws/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -137,9 +137,9 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -285,19 +285,6 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
-# Target rules for targets named ouster_client
-
-# Build rule for target.
-ouster_client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ouster_client
-.PHONY : ouster_client
-
-# fast build rule for target.
-ouster_client/fast:
-	$(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/build
-.PHONY : ouster_client/fast
-
-#=============================================================================
 # Target rules for targets named ouster_client_example
 
 # Build rule for target.
@@ -311,30 +298,17 @@ ouster_client_example/fast:
 .PHONY : ouster_client_example/fast
 
 #=============================================================================
-# Target rules for targets named _catkin_empty_exported_target
+# Target rules for targets named ouster_client
 
 # Build rule for target.
-_catkin_empty_exported_target: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
-.PHONY : _catkin_empty_exported_target
+ouster_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ouster_client
+.PHONY : ouster_client
 
 # fast build rule for target.
-_catkin_empty_exported_target/fast:
-	$(MAKE) -f ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/build.make ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
-
-#=============================================================================
-# Target rules for targets named viz
-
-# Build rule for target.
-viz: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 viz
-.PHONY : viz
-
-# fast build rule for target.
-viz/fast:
-	$(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/build
-.PHONY : viz/fast
+ouster_client/fast:
+	$(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/build
+.PHONY : ouster_client/fast
 
 #=============================================================================
 # Target rules for targets named ouster_viz
@@ -348,6 +322,19 @@ ouster_viz: cmake_check_build_system
 ouster_viz/fast:
 	$(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/build
 .PHONY : ouster_viz/fast
+
+#=============================================================================
+# Target rules for targets named simple_viz
+
+# Build rule for target.
+simple_viz: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 simple_viz
+.PHONY : simple_viz
+
+# fast build rule for target.
+simple_viz/fast:
+	$(MAKE) -f ouster_viz/CMakeFiles/simple_viz.dir/build.make ouster_viz/CMakeFiles/simple_viz.dir/build
+.PHONY : simple_viz/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_py
@@ -558,17 +545,17 @@ viz_node/fast:
 .PHONY : viz_node/fast
 
 #=============================================================================
-# Target rules for targets named os1_cloud_node
+# Target rules for targets named os_node
 
 # Build rule for target.
-os1_cloud_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 os1_cloud_node
-.PHONY : os1_cloud_node
+os_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 os_node
+.PHONY : os_node
 
 # fast build rule for target.
-os1_cloud_node/fast:
-	$(MAKE) -f ouster_ros/CMakeFiles/os1_cloud_node.dir/build.make ouster_ros/CMakeFiles/os1_cloud_node.dir/build
-.PHONY : os1_cloud_node/fast
+os_node/fast:
+	$(MAKE) -f ouster_ros/CMakeFiles/os_node.dir/build.make ouster_ros/CMakeFiles/os_node.dir/build
+.PHONY : os_node/fast
 
 #=============================================================================
 # Target rules for targets named std_srvs_generate_messages_cpp
@@ -582,6 +569,32 @@ std_srvs_generate_messages_cpp: cmake_check_build_system
 std_srvs_generate_messages_cpp/fast:
 	$(MAKE) -f ouster_ros/CMakeFiles/std_srvs_generate_messages_cpp.dir/build.make ouster_ros/CMakeFiles/std_srvs_generate_messages_cpp.dir/build
 .PHONY : std_srvs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named _ouster_ros_generate_messages_check_deps_OSConfigSrv
+
+# Build rule for target.
+_ouster_ros_generate_messages_check_deps_OSConfigSrv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _ouster_ros_generate_messages_check_deps_OSConfigSrv
+.PHONY : _ouster_ros_generate_messages_check_deps_OSConfigSrv
+
+# fast build rule for target.
+_ouster_ros_generate_messages_check_deps_OSConfigSrv/fast:
+	$(MAKE) -f ouster_ros/CMakeFiles/_ouster_ros_generate_messages_check_deps_OSConfigSrv.dir/build.make ouster_ros/CMakeFiles/_ouster_ros_generate_messages_check_deps_OSConfigSrv.dir/build
+.PHONY : _ouster_ros_generate_messages_check_deps_OSConfigSrv/fast
+
+#=============================================================================
+# Target rules for targets named pcl_msgs_generate_messages_nodejs
+
+# Build rule for target.
+pcl_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pcl_msgs_generate_messages_nodejs
+.PHONY : pcl_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+pcl_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f ouster_ros/CMakeFiles/pcl_msgs_generate_messages_nodejs.dir/build.make ouster_ros/CMakeFiles/pcl_msgs_generate_messages_nodejs.dir/build
+.PHONY : pcl_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
 # Target rules for targets named nodelet_generate_messages_nodejs
@@ -634,19 +647,6 @@ pcl_msgs_generate_messages_eus: cmake_check_build_system
 pcl_msgs_generate_messages_eus/fast:
 	$(MAKE) -f ouster_ros/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make ouster_ros/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
 .PHONY : pcl_msgs_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named std_srvs_generate_messages_lisp
-
-# Build rule for target.
-std_srvs_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 std_srvs_generate_messages_lisp
-.PHONY : std_srvs_generate_messages_lisp
-
-# fast build rule for target.
-std_srvs_generate_messages_lisp/fast:
-	$(MAKE) -f ouster_ros/CMakeFiles/std_srvs_generate_messages_lisp.dir/build.make ouster_ros/CMakeFiles/std_srvs_generate_messages_lisp.dir/build
-.PHONY : std_srvs_generate_messages_lisp/fast
 
 #=============================================================================
 # Target rules for targets named topic_tools_generate_messages_lisp
@@ -974,6 +974,32 @@ sensor_msgs_generate_messages_eus/fast:
 .PHONY : sensor_msgs_generate_messages_eus/fast
 
 #=============================================================================
+# Target rules for targets named std_srvs_generate_messages_lisp
+
+# Build rule for target.
+std_srvs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 std_srvs_generate_messages_lisp
+.PHONY : std_srvs_generate_messages_lisp
+
+# fast build rule for target.
+std_srvs_generate_messages_lisp/fast:
+	$(MAKE) -f ouster_ros/CMakeFiles/std_srvs_generate_messages_lisp.dir/build.make ouster_ros/CMakeFiles/std_srvs_generate_messages_lisp.dir/build
+.PHONY : std_srvs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named _catkin_empty_exported_target
+
+# Build rule for target.
+_catkin_empty_exported_target: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	$(MAKE) -f ouster_ros/CMakeFiles/_catkin_empty_exported_target.dir/build.make ouster_ros/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
+#=============================================================================
 # Target rules for targets named bond_generate_messages_eus
 
 # Build rule for target.
@@ -1063,6 +1089,19 @@ dynamic_reconfigure_generate_messages_cpp: cmake_check_build_system
 dynamic_reconfigure_generate_messages_cpp/fast:
 	$(MAKE) -f ouster_ros/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make ouster_ros/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build
 .PHONY : dynamic_reconfigure_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named os_cloud_node
+
+# Build rule for target.
+os_cloud_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 os_cloud_node
+.PHONY : os_cloud_node
+
+# fast build rule for target.
+os_cloud_node/fast:
+	$(MAKE) -f ouster_ros/CMakeFiles/os_cloud_node.dir/build.make ouster_ros/CMakeFiles/os_cloud_node.dir/build
+.PHONY : os_cloud_node/fast
 
 #=============================================================================
 # Target rules for targets named topic_tools_generate_messages_cpp
@@ -1284,19 +1323,6 @@ bond_generate_messages_lisp: cmake_check_build_system
 bond_generate_messages_lisp/fast:
 	$(MAKE) -f ouster_ros/CMakeFiles/bond_generate_messages_lisp.dir/build.make ouster_ros/CMakeFiles/bond_generate_messages_lisp.dir/build
 .PHONY : bond_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named _ouster_ros_generate_messages_check_deps_OS1ConfigSrv
-
-# Build rule for target.
-_ouster_ros_generate_messages_check_deps_OS1ConfigSrv: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _ouster_ros_generate_messages_check_deps_OS1ConfigSrv
-.PHONY : _ouster_ros_generate_messages_check_deps_OS1ConfigSrv
-
-# fast build rule for target.
-_ouster_ros_generate_messages_check_deps_OS1ConfigSrv/fast:
-	$(MAKE) -f ouster_ros/CMakeFiles/_ouster_ros_generate_messages_check_deps_OS1ConfigSrv.dir/build.make ouster_ros/CMakeFiles/_ouster_ros_generate_messages_check_deps_OS1ConfigSrv.dir/build
-.PHONY : _ouster_ros_generate_messages_check_deps_OS1ConfigSrv/fast
 
 #=============================================================================
 # Target rules for targets named ouster_ros_generate_messages_nodejs
@@ -1571,32 +1597,6 @@ ouster_ros_genpy/fast:
 	$(MAKE) -f ouster_ros/CMakeFiles/ouster_ros_genpy.dir/build.make ouster_ros/CMakeFiles/ouster_ros_genpy.dir/build
 .PHONY : ouster_ros_genpy/fast
 
-#=============================================================================
-# Target rules for targets named pcl_msgs_generate_messages_nodejs
-
-# Build rule for target.
-pcl_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pcl_msgs_generate_messages_nodejs
-.PHONY : pcl_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-pcl_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f ouster_ros/CMakeFiles/pcl_msgs_generate_messages_nodejs.dir/build.make ouster_ros/CMakeFiles/pcl_msgs_generate_messages_nodejs.dir/build
-.PHONY : pcl_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named os1_node
-
-# Build rule for target.
-os1_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 os1_node
-.PHONY : os1_node
-
-# fast build rule for target.
-os1_node/fast:
-	$(MAKE) -f ouster_ros/CMakeFiles/os1_node.dir/build.make ouster_ros/CMakeFiles/os1_node.dir/build
-.PHONY : os1_node/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1619,11 +1619,10 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
-	@echo "... ouster_client"
 	@echo "... ouster_client_example"
-	@echo "... _catkin_empty_exported_target"
-	@echo "... viz"
+	@echo "... ouster_client"
 	@echo "... ouster_viz"
+	@echo "... simple_viz"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... roscpp_generate_messages_lisp"
@@ -1640,13 +1639,14 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... viz_node"
-	@echo "... os1_cloud_node"
+	@echo "... os_node"
 	@echo "... std_srvs_generate_messages_cpp"
+	@echo "... _ouster_ros_generate_messages_check_deps_OSConfigSrv"
+	@echo "... pcl_msgs_generate_messages_nodejs"
 	@echo "... nodelet_generate_messages_nodejs"
 	@echo "... topic_tools_generate_messages_eus"
 	@echo "... ouster_ros"
 	@echo "... pcl_msgs_generate_messages_eus"
-	@echo "... std_srvs_generate_messages_lisp"
 	@echo "... topic_tools_generate_messages_lisp"
 	@echo "... bond_generate_messages_cpp"
 	@echo "... actionlib_msgs_generate_messages_cpp"
@@ -1672,6 +1672,8 @@ help:
 	@echo "... ouster_ros_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
+	@echo "... std_srvs_generate_messages_lisp"
+	@echo "... _catkin_empty_exported_target"
 	@echo "... bond_generate_messages_eus"
 	@echo "... dynamic_reconfigure_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_eus"
@@ -1679,6 +1681,7 @@ help:
 	@echo "... ouster_ros_generate_messages_py"
 	@echo "... tf_generate_messages_py"
 	@echo "... dynamic_reconfigure_generate_messages_cpp"
+	@echo "... os_cloud_node"
 	@echo "... topic_tools_generate_messages_cpp"
 	@echo "... dynamic_reconfigure_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_py"
@@ -1696,7 +1699,6 @@ help:
 	@echo "... tf_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_nodejs"
 	@echo "... bond_generate_messages_lisp"
-	@echo "... _ouster_ros_generate_messages_check_deps_OS1ConfigSrv"
 	@echo "... ouster_ros_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... nodelet_topic_tools_gencfg"
@@ -1718,8 +1720,6 @@ help:
 	@echo "... ouster_ros_generate_messages_lisp"
 	@echo "... ouster_ros_gennodejs"
 	@echo "... ouster_ros_genpy"
-	@echo "... pcl_msgs_generate_messages_nodejs"
-	@echo "... os1_node"
 .PHONY : help
 
 

@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/simple_viz.dir/src/main.cpp.o  -o simple_viz -lpthread -lGLEW -lGL /home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_client.a /home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_viz.a -lpthread /usr/lib/x86_64-linux-gnu/libglfw.so.3.2 -lGLEW -lGL /home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_client.a -ljsoncpp 

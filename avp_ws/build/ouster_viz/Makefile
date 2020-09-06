@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/src
+CMAKE_SOURCE_DIR = /home/lucerna/Documents/f110-avp/avp_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/build
+CMAKE_BINARY_DIR = /home/lucerna/Documents/f110-avp/avp_ws/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -137,14 +137,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_viz/CMakeFiles/progress.marks
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles 0
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_viz/CMakeFiles/progress.marks
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/clean
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,37 +154,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/preinstall
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/preinstall
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-ouster_viz/CMakeFiles/viz.dir/rule:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/CMakeFiles/viz.dir/rule
-.PHONY : ouster_viz/CMakeFiles/viz.dir/rule
-
-# Convenience name for target.
-viz: ouster_viz/CMakeFiles/viz.dir/rule
-
-.PHONY : viz
-
-# fast build rule for target.
-viz/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/build
-.PHONY : viz/fast
-
-# Convenience name for target.
 ouster_viz/CMakeFiles/ouster_viz.dir/rule:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/CMakeFiles/ouster_viz.dir/rule
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/CMakeFiles/ouster_viz.dir/rule
 .PHONY : ouster_viz/CMakeFiles/ouster_viz.dir/rule
 
 # Convenience name for target.
@@ -194,8 +179,104 @@ ouster_viz: ouster_viz/CMakeFiles/ouster_viz.dir/rule
 
 # fast build rule for target.
 ouster_viz/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/build
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/build
 .PHONY : ouster_viz/fast
+
+# Convenience name for target.
+ouster_viz/CMakeFiles/simple_viz.dir/rule:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_viz/CMakeFiles/simple_viz.dir/rule
+.PHONY : ouster_viz/CMakeFiles/simple_viz.dir/rule
+
+# Convenience name for target.
+simple_viz: ouster_viz/CMakeFiles/simple_viz.dir/rule
+
+.PHONY : simple_viz
+
+# fast build rule for target.
+simple_viz/fast:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/simple_viz.dir/build.make ouster_viz/CMakeFiles/simple_viz.dir/build
+.PHONY : simple_viz/fast
+
+src/camera.o: src/camera.cpp.o
+
+.PHONY : src/camera.o
+
+# target to build an object file
+src/camera.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/camera.cpp.o
+.PHONY : src/camera.cpp.o
+
+src/camera.i: src/camera.cpp.i
+
+.PHONY : src/camera.i
+
+# target to preprocess a source file
+src/camera.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/camera.cpp.i
+.PHONY : src/camera.cpp.i
+
+src/camera.s: src/camera.cpp.s
+
+.PHONY : src/camera.s
+
+# target to generate assembly for a file
+src/camera.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/camera.cpp.s
+.PHONY : src/camera.cpp.s
+
+src/cloud.o: src/cloud.cpp.o
+
+.PHONY : src/cloud.o
+
+# target to build an object file
+src/cloud.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/cloud.cpp.o
+.PHONY : src/cloud.cpp.o
+
+src/cloud.i: src/cloud.cpp.i
+
+.PHONY : src/cloud.i
+
+# target to preprocess a source file
+src/cloud.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/cloud.cpp.i
+.PHONY : src/cloud.cpp.i
+
+src/cloud.s: src/cloud.cpp.s
+
+.PHONY : src/cloud.s
+
+# target to generate assembly for a file
+src/cloud.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/cloud.cpp.s
+.PHONY : src/cloud.cpp.s
+
+src/image.o: src/image.cpp.o
+
+.PHONY : src/image.o
+
+# target to build an object file
+src/image.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/image.cpp.o
+.PHONY : src/image.cpp.o
+
+src/image.i: src/image.cpp.i
+
+.PHONY : src/image.i
+
+# target to preprocess a source file
+src/image.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/image.cpp.i
+.PHONY : src/image.cpp.i
+
+src/image.s: src/image.cpp.s
+
+.PHONY : src/image.s
+
+# target to generate assembly for a file
+src/image.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/image.cpp.s
+.PHONY : src/image.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -203,7 +284,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/src/main.cpp.o
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/simple_viz.dir/build.make ouster_viz/CMakeFiles/simple_viz.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -212,7 +293,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/src/main.cpp.i
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/simple_viz.dir/build.make ouster_viz/CMakeFiles/simple_viz.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -221,38 +302,35 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/src/main.cpp.s
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/simple_viz.dir/build.make ouster_viz/CMakeFiles/simple_viz.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/viz.o: src/viz.cpp.o
+src/point_viz.o: src/point_viz.cpp.o
 
-.PHONY : src/viz.o
+.PHONY : src/point_viz.o
 
 # target to build an object file
-src/viz.cpp.o:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/src/viz.cpp.o
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/viz.cpp.o
-.PHONY : src/viz.cpp.o
+src/point_viz.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/point_viz.cpp.o
+.PHONY : src/point_viz.cpp.o
 
-src/viz.i: src/viz.cpp.i
+src/point_viz.i: src/point_viz.cpp.i
 
-.PHONY : src/viz.i
+.PHONY : src/point_viz.i
 
 # target to preprocess a source file
-src/viz.cpp.i:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/src/viz.cpp.i
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/viz.cpp.i
-.PHONY : src/viz.cpp.i
+src/point_viz.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/point_viz.cpp.i
+.PHONY : src/point_viz.cpp.i
 
-src/viz.s: src/viz.cpp.s
+src/point_viz.s: src/point_viz.cpp.s
 
-.PHONY : src/viz.s
+.PHONY : src/point_viz.s
 
 # target to generate assembly for a file
-src/viz.cpp.s:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/viz.dir/build.make ouster_viz/CMakeFiles/viz.dir/src/viz.cpp.s
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/viz.cpp.s
-.PHONY : src/viz.cpp.s
+src/point_viz.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_viz/CMakeFiles/ouster_viz.dir/build.make ouster_viz/CMakeFiles/ouster_viz.dir/src/point_viz.cpp.s
+.PHONY : src/point_viz.cpp.s
 
 # Help Target
 help:
@@ -262,19 +340,28 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install"
-	@echo "... viz"
 	@echo "... ouster_viz"
 	@echo "... install/local"
 	@echo "... test"
 	@echo "... list_install_components"
 	@echo "... edit_cache"
+	@echo "... simple_viz"
 	@echo "... rebuild_cache"
+	@echo "... src/camera.o"
+	@echo "... src/camera.i"
+	@echo "... src/camera.s"
+	@echo "... src/cloud.o"
+	@echo "... src/cloud.i"
+	@echo "... src/cloud.s"
+	@echo "... src/image.o"
+	@echo "... src/image.i"
+	@echo "... src/image.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/viz.o"
-	@echo "... src/viz.i"
-	@echo "... src/viz.s"
+	@echo "... src/point_viz.o"
+	@echo "... src/point_viz.i"
+	@echo "... src/point_viz.s"
 .PHONY : help
 
 
@@ -286,6 +373,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

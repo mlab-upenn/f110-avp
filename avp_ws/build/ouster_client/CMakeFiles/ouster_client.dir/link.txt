@@ -1,2 +1,2 @@
-/usr/bin/ar qc /home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/libouster_client.a  CMakeFiles/ouster_client.dir/src/os1.cpp.o CMakeFiles/ouster_client.dir/src/os1_util.cpp.o
-/usr/bin/ranlib /home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/libouster_client.a
+/usr/bin/ar qc /home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_client.a  CMakeFiles/ouster_client.dir/src/client.cpp.o CMakeFiles/ouster_client.dir/src/types.cpp.o CMakeFiles/ouster_client.dir/src/compat.cpp.o CMakeFiles/ouster_client.dir/src/lidar_scan.cpp.o
+/usr/bin/ranlib /home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_client.a

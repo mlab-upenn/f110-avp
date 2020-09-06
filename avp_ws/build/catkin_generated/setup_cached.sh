@@ -7,7 +7,10 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/lucerna/MEGAsync/project/AVP/avp_ws/devel:$CMAKE_PREFIX_PATH"
-export PWD="/home/lucerna/MEGAsync/project/AVP/avp_ws/build"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/lucerna/MEGAsync/project/AVP/avp_ws/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH="/home/lucerna/MEGAsync/project/AVP/avp_ws/src:$ROS_PACKAGE_PATH"
+export CMAKE_PREFIX_PATH="/home/lucerna/Documents/f110-avp/avp_ws/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/lucerna/Documents/f110-avp/avp_ws/devel/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/home/lucerna/Documents/f110-avp/avp_ws/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PWD='/home/lucerna/Documents/f110-avp/avp_ws/build'
+export PYTHONPATH="/home/lucerna/Documents/f110-avp/avp_ws/devel/lib/python2.7/dist-packages:$PYTHONPATH"
+export ROSLISP_PACKAGE_DIRECTORIES='/home/lucerna/Documents/f110-avp/avp_ws/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/lucerna/Documents/f110-avp/avp_ws/src:$ROS_PACKAGE_PATH"

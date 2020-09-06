@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/src
+CMAKE_SOURCE_DIR = /home/lucerna/Documents/f110-avp/avp_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/build
+CMAKE_BINARY_DIR = /home/lucerna/Documents/f110-avp/avp_ws/build
 
 # Utility rule file for ouster_ros_genlisp.
 
@@ -63,10 +63,10 @@ ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/build: ouster_ros_genlisp
 .PHONY : ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/build
 
 ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/clean:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros && $(CMAKE_COMMAND) -P CMakeFiles/ouster_ros_genlisp.dir/cmake_clean.cmake
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros && $(CMAKE_COMMAND) -P CMakeFiles/ouster_ros_genlisp.dir/cmake_clean.cmake
 .PHONY : ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/clean
 
 ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/depend:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lucerna/MEGAsync/project/AVP/avp_ws/src /home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros /home/lucerna/MEGAsync/project/AVP/avp_ws/build /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lucerna/Documents/f110-avp/avp_ws/src /home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros /home/lucerna/Documents/f110-avp/avp_ws/build /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ouster_ros/CMakeFiles/ouster_ros_genlisp.dir/depend
 

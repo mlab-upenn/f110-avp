@@ -1,8 +1,8 @@
-prefix=/home/lucerna/MEGAsync/project/AVP/avp_ws/install
+prefix=/home/lucerna/Documents/f110-avp/avp_ws/install
 
 Name: ouster_ros
 Description: Description of ouster_ros
 Version: 0.1.0
 Cflags: -I${prefix}/include
 Libs: -L${prefix}/lib -louster_ros
-Requires: roscpp message_runtime pcl_ros std_msgs sensor_msgs geometry_msgs ouster_client ouster_viz
+Requires: roscpp message_runtime pcl_ros std_msgs sensor_msgs geometry_msgs

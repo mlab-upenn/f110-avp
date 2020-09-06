@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/libouster_viz.a"
+  "/home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_viz.a"
 )

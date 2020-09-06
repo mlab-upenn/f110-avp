@@ -9,7 +9,7 @@ import struct
 class PacketMsg(genpy.Message):
   _md5sum = "4f7b5949e76f86d01e96b0e33ba9b5e3"
   _type = "ouster_ros/PacketMsg"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint8[] buf
 """
   __slots__ = ['buf']
@@ -31,7 +31,7 @@ class PacketMsg(genpy.Message):
     """
     if args or kwds:
       super(PacketMsg, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.buf is None:
         self.buf = b''
     else:
@@ -74,7 +74,7 @@ class PacketMsg(genpy.Message):
       self.buf = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -110,7 +110,7 @@ class PacketMsg(genpy.Message):
       self.buf = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -2,7 +2,7 @@
 
 message(STATUS "ouster_ros: 1 messages, 1 services")
 
-set(MSG_I_FLAGS "-Iouster_ros:/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Iouster_ros:/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg;-Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -17,14 +17,14 @@ add_custom_target(ouster_ros_generate_messages ALL)
 
 
 
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" NAME_WE)
 add_custom_target(_ouster_ros_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "ouster_ros" "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "ouster_ros" "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" ""
 )
 
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
 add_custom_target(_ouster_ros_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "ouster_ros" "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "ouster_ros" "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" ""
 )
 
 #
@@ -34,7 +34,7 @@ add_custom_target(_ouster_ros_generate_messages_check_deps_${_filename}
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/ouster_ros
@@ -42,7 +42,7 @@ _generate_msg_cpp(ouster_ros
 
 ### Generating Services
 _generate_srv_cpp(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/ouster_ros
@@ -60,9 +60,9 @@ add_custom_target(ouster_ros_generate_messages_cpp
 add_dependencies(ouster_ros_generate_messages ouster_ros_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_cpp _ouster_ros_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_cpp _ouster_ros_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -75,7 +75,7 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS ouster_ros_generate_messages_cpp)
 ### Section generating for lang: geneus
 ### Generating Messages
 _generate_msg_eus(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/ouster_ros
@@ -83,7 +83,7 @@ _generate_msg_eus(ouster_ros
 
 ### Generating Services
 _generate_srv_eus(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/ouster_ros
@@ -101,9 +101,9 @@ add_custom_target(ouster_ros_generate_messages_eus
 add_dependencies(ouster_ros_generate_messages ouster_ros_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_eus _ouster_ros_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_eus _ouster_ros_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -116,7 +116,7 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS ouster_ros_generate_messages_eus)
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/ouster_ros
@@ -124,7 +124,7 @@ _generate_msg_lisp(ouster_ros
 
 ### Generating Services
 _generate_srv_lisp(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/ouster_ros
@@ -142,9 +142,9 @@ add_custom_target(ouster_ros_generate_messages_lisp
 add_dependencies(ouster_ros_generate_messages ouster_ros_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_lisp _ouster_ros_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_lisp _ouster_ros_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -157,7 +157,7 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS ouster_ros_generate_messages_lisp)
 ### Section generating for lang: gennodejs
 ### Generating Messages
 _generate_msg_nodejs(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/ouster_ros
@@ -165,7 +165,7 @@ _generate_msg_nodejs(ouster_ros
 
 ### Generating Services
 _generate_srv_nodejs(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/ouster_ros
@@ -183,9 +183,9 @@ add_custom_target(ouster_ros_generate_messages_nodejs
 add_dependencies(ouster_ros_generate_messages ouster_ros_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_nodejs _ouster_ros_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_nodejs _ouster_ros_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -198,7 +198,7 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS ouster_ros_generate_messages_nodejs
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/ouster_ros
@@ -206,7 +206,7 @@ _generate_msg_py(ouster_ros
 
 ### Generating Services
 _generate_srv_py(ouster_ros
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/ouster_ros
@@ -224,9 +224,9 @@ add_custom_target(ouster_ros_generate_messages_py
 add_dependencies(ouster_ros_generate_messages ouster_ros_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/srv/OSConfigSrv.srv" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_py _ouster_ros_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/srv/OS1ConfigSrv.srv" NAME_WE)
+get_filename_component(_filename "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/msg/PacketMsg.msg" NAME_WE)
 add_dependencies(ouster_ros_generate_messages_py _ouster_ros_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

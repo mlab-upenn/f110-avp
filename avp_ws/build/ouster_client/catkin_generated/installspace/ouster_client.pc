@@ -1,8 +1,0 @@
-prefix=/home/lucerna/MEGAsync/project/AVP/avp_ws/install
-
-Name: ouster_client
-Description: Description of ouster_client
-Version: 0.1.0
-Cflags: -I${prefix}/include -I/usr/include/jsoncpp
-Libs: -L${prefix}/lib -louster_client -ljsoncpp
-Requires: 

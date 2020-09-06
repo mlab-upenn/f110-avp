@@ -67,14 +67,14 @@ set(f110_avp_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(f110_avp_SOURCE_PREFIX /home/lucerna/MEGAsync/project/AVP/avp_ws/src/f110_avp)
-  set(f110_avp_DEVEL_PREFIX /home/lucerna/MEGAsync/project/AVP/avp_ws/devel)
+  set(f110_avp_SOURCE_PREFIX /home/lucerna/Documents/f110-avp/avp_ws/src/f110_avp)
+  set(f110_avp_DEVEL_PREFIX /home/lucerna/Documents/f110-avp/avp_ws/devel)
   set(f110_avp_INSTALL_PREFIX "")
   set(f110_avp_PREFIX ${f110_avp_DEVEL_PREFIX})
 else()
   set(f110_avp_SOURCE_PREFIX "")
   set(f110_avp_DEVEL_PREFIX "")
-  set(f110_avp_INSTALL_PREFIX /home/lucerna/MEGAsync/project/AVP/avp_ws/install)
+  set(f110_avp_INSTALL_PREFIX /home/lucerna/Documents/f110-avp/avp_ws/install)
   set(f110_avp_PREFIX ${f110_avp_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/lucerna/MEGAsync/project/AVP/avp_ws/install/lib;/home/lucerna/AVP/avp_ws/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/lucerna/Documents/f110-avp/avp_ws/install/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

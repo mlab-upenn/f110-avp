@@ -1,4 +1,4 @@
-prefix=/home/lucerna/MEGAsync/project/AVP/avp_ws/install
+prefix=/home/lucerna/Documents/f110-avp/avp_ws/install
 
 Name: f110_avp
 Description: Description of f110_avp

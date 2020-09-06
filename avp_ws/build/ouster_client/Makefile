@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/src
+CMAKE_SOURCE_DIR = /home/lucerna/Documents/f110-avp/avp_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/build
+CMAKE_BINARY_DIR = /home/lucerna/Documents/f110-avp/avp_ws/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,27 +80,6 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -124,6 +103,27 @@ test/fast: test
 
 .PHONY : test/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -137,14 +137,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/CMakeFiles/progress.marks
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/MEGAsync/project/AVP/avp_ws/build/CMakeFiles 0
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_client/CMakeFiles/progress.marks
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucerna/Documents/f110-avp/avp_ws/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/clean
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,37 +154,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/preinstall
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/preinstall
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-ouster_client/CMakeFiles/ouster_client.dir/rule:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/CMakeFiles/ouster_client.dir/rule
-.PHONY : ouster_client/CMakeFiles/ouster_client.dir/rule
-
-# Convenience name for target.
-ouster_client: ouster_client/CMakeFiles/ouster_client.dir/rule
-
-.PHONY : ouster_client
-
-# fast build rule for target.
-ouster_client/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/build
-.PHONY : ouster_client/fast
-
-# Convenience name for target.
 ouster_client/CMakeFiles/ouster_client_example.dir/rule:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/CMakeFiles/ouster_client_example.dir/rule
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/CMakeFiles/ouster_client_example.dir/rule
 .PHONY : ouster_client/CMakeFiles/ouster_client_example.dir/rule
 
 # Convenience name for target.
@@ -194,23 +179,104 @@ ouster_client_example: ouster_client/CMakeFiles/ouster_client_example.dir/rule
 
 # fast build rule for target.
 ouster_client_example/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/build
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/build
 .PHONY : ouster_client_example/fast
 
 # Convenience name for target.
-ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/rule:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/rule
-.PHONY : ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/rule
+ouster_client/CMakeFiles/ouster_client.dir/rule:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ouster_client/CMakeFiles/ouster_client.dir/rule
+.PHONY : ouster_client/CMakeFiles/ouster_client.dir/rule
 
 # Convenience name for target.
-_catkin_empty_exported_target: ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/rule
+ouster_client: ouster_client/CMakeFiles/ouster_client.dir/rule
 
-.PHONY : _catkin_empty_exported_target
+.PHONY : ouster_client
 
 # fast build rule for target.
-_catkin_empty_exported_target/fast:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/build.make ouster_client/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
+ouster_client/fast:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/build
+.PHONY : ouster_client/fast
+
+src/client.o: src/client.cpp.o
+
+.PHONY : src/client.o
+
+# target to build an object file
+src/client.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/client.cpp.o
+.PHONY : src/client.cpp.o
+
+src/client.i: src/client.cpp.i
+
+.PHONY : src/client.i
+
+# target to preprocess a source file
+src/client.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/client.cpp.i
+.PHONY : src/client.cpp.i
+
+src/client.s: src/client.cpp.s
+
+.PHONY : src/client.s
+
+# target to generate assembly for a file
+src/client.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/client.cpp.s
+.PHONY : src/client.cpp.s
+
+src/compat.o: src/compat.cpp.o
+
+.PHONY : src/compat.o
+
+# target to build an object file
+src/compat.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/compat.cpp.o
+.PHONY : src/compat.cpp.o
+
+src/compat.i: src/compat.cpp.i
+
+.PHONY : src/compat.i
+
+# target to preprocess a source file
+src/compat.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/compat.cpp.i
+.PHONY : src/compat.cpp.i
+
+src/compat.s: src/compat.cpp.s
+
+.PHONY : src/compat.s
+
+# target to generate assembly for a file
+src/compat.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/compat.cpp.s
+.PHONY : src/compat.cpp.s
+
+src/lidar_scan.o: src/lidar_scan.cpp.o
+
+.PHONY : src/lidar_scan.o
+
+# target to build an object file
+src/lidar_scan.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/lidar_scan.cpp.o
+.PHONY : src/lidar_scan.cpp.o
+
+src/lidar_scan.i: src/lidar_scan.cpp.i
+
+.PHONY : src/lidar_scan.i
+
+# target to preprocess a source file
+src/lidar_scan.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/lidar_scan.cpp.i
+.PHONY : src/lidar_scan.cpp.i
+
+src/lidar_scan.s: src/lidar_scan.cpp.s
+
+.PHONY : src/lidar_scan.s
+
+# target to generate assembly for a file
+src/lidar_scan.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/lidar_scan.cpp.s
+.PHONY : src/lidar_scan.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -218,7 +284,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.o
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -227,7 +293,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.i
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -236,62 +302,35 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.s
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client_example.dir/build.make ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/os1.o: src/os1.cpp.o
+src/types.o: src/types.cpp.o
 
-.PHONY : src/os1.o
-
-# target to build an object file
-src/os1.cpp.o:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/os1.cpp.o
-.PHONY : src/os1.cpp.o
-
-src/os1.i: src/os1.cpp.i
-
-.PHONY : src/os1.i
-
-# target to preprocess a source file
-src/os1.cpp.i:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/os1.cpp.i
-.PHONY : src/os1.cpp.i
-
-src/os1.s: src/os1.cpp.s
-
-.PHONY : src/os1.s
-
-# target to generate assembly for a file
-src/os1.cpp.s:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/os1.cpp.s
-.PHONY : src/os1.cpp.s
-
-src/os1_util.o: src/os1_util.cpp.o
-
-.PHONY : src/os1_util.o
+.PHONY : src/types.o
 
 # target to build an object file
-src/os1_util.cpp.o:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/os1_util.cpp.o
-.PHONY : src/os1_util.cpp.o
+src/types.cpp.o:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/types.cpp.o
+.PHONY : src/types.cpp.o
 
-src/os1_util.i: src/os1_util.cpp.i
+src/types.i: src/types.cpp.i
 
-.PHONY : src/os1_util.i
+.PHONY : src/types.i
 
 # target to preprocess a source file
-src/os1_util.cpp.i:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/os1_util.cpp.i
-.PHONY : src/os1_util.cpp.i
+src/types.cpp.i:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/types.cpp.i
+.PHONY : src/types.cpp.i
 
-src/os1_util.s: src/os1_util.cpp.s
+src/types.s: src/types.cpp.s
 
-.PHONY : src/os1_util.s
+.PHONY : src/types.s
 
 # target to generate assembly for a file
-src/os1_util.cpp.s:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/os1_util.cpp.s
-.PHONY : src/os1_util.cpp.s
+src/types.cpp.s:
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(MAKE) -f ouster_client/CMakeFiles/ouster_client.dir/build.make ouster_client/CMakeFiles/ouster_client.dir/src/types.cpp.s
+.PHONY : src/types.cpp.s
 
 # Help Target
 help:
@@ -301,23 +340,28 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install"
-	@echo "... list_install_components"
-	@echo "... ouster_client"
-	@echo "... edit_cache"
 	@echo "... ouster_client_example"
+	@echo "... ouster_client"
 	@echo "... install/local"
 	@echo "... test"
-	@echo "... _catkin_empty_exported_target"
+	@echo "... list_install_components"
+	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... src/client.o"
+	@echo "... src/client.i"
+	@echo "... src/client.s"
+	@echo "... src/compat.o"
+	@echo "... src/compat.i"
+	@echo "... src/compat.s"
+	@echo "... src/lidar_scan.o"
+	@echo "... src/lidar_scan.i"
+	@echo "... src/lidar_scan.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/os1.o"
-	@echo "... src/os1.i"
-	@echo "... src/os1.s"
-	@echo "... src/os1_util.o"
-	@echo "... src/os1_util.i"
-	@echo "... src/os1_util.s"
+	@echo "... src/types.o"
+	@echo "... src/types.i"
+	@echo "... src/types.s"
 .PHONY : help
 
 
@@ -329,6 +373,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

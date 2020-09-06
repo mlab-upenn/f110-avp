@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/src/os1_ros.cpp" "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros/CMakeFiles/ouster_ros.dir/src/os1_ros.cpp.o"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/src/ros.cpp" "/home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros/CMakeFiles/ouster_ros.dir/src/ros.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -17,10 +17,8 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/devel/include"
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros/include"
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_client/include"
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_viz/include"
+  "/home/lucerna/Documents/f110-avp/avp_ws/devel/include"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros/include"
   "/opt/ros/melodic/include"
   "/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "/opt/ros/melodic/share/orocos_kdl/cmake/../../../include"
@@ -40,12 +38,13 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/tcl"
   "/usr/include/ni"
   "/usr/include/openni2"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_client/include"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_client/SYSTEM"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_viz/CMakeFiles/ouster_viz.dir/DependInfo.cmake"
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/CMakeFiles/ouster_client.dir/DependInfo.cmake"
+  "/home/lucerna/Documents/f110-avp/avp_ws/build/ouster_client/CMakeFiles/ouster_client.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

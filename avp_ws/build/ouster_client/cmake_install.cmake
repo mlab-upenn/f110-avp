@@ -1,8 +1,8 @@
-# Install script for directory: /home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_client
+# Install script for directory: /home/lucerna/Documents/f110-avp/avp_ws/src/ouster_client
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/lucerna/MEGAsync/project/AVP/avp_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/lucerna/Documents/f110-avp/avp_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -35,20 +35,5 @@ endif()
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/catkin_generated/installspace/ouster_client.pc")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ouster_client/cmake" TYPE FILE FILES
-    "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/catkin_generated/installspace/ouster_clientConfig.cmake"
-    "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/catkin_generated/installspace/ouster_clientConfig-version.cmake"
-    )
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ouster_client" TYPE FILE FILES "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_client/package.xml")
 endif()
 

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_client/src/main.cpp" "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.o"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_client/src/main.cpp" "/home/lucerna/Documents/f110-avp/avp_ws/build/ouster_client/CMakeFiles/ouster_client_example.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,12 +15,14 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_client/include"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_client/include"
+  "/usr/include/jsoncpp"
+  "/home/lucerna/Documents/f110-avp/avp_ws/src/ouster_client/SYSTEM"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_client/CMakeFiles/ouster_client.dir/DependInfo.cmake"
+  "/home/lucerna/Documents/f110-avp/avp_ws/build/ouster_client/CMakeFiles/ouster_client.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/src
+CMAKE_SOURCE_DIR = /home/lucerna/Documents/f110-avp/avp_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucerna/MEGAsync/project/AVP/avp_ws/build
+CMAKE_BINARY_DIR = /home/lucerna/Documents/f110-avp/avp_ws/build
 
 # Utility rule file for geometry_msgs_generate_messages_lisp.
 
@@ -63,10 +63,10 @@ ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build: geometry_m
 .PHONY : ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
 
 ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_lisp.dir/cmake_clean.cmake
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_lisp.dir/cmake_clean.cmake
 .PHONY : ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
 
 ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/depend:
-	cd /home/lucerna/MEGAsync/project/AVP/avp_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lucerna/MEGAsync/project/AVP/avp_ws/src /home/lucerna/MEGAsync/project/AVP/avp_ws/src/ouster_ros /home/lucerna/MEGAsync/project/AVP/avp_ws/build /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros /home/lucerna/MEGAsync/project/AVP/avp_ws/build/ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/lucerna/Documents/f110-avp/avp_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/lucerna/Documents/f110-avp/avp_ws/src /home/lucerna/Documents/f110-avp/avp_ws/src/ouster_ros /home/lucerna/Documents/f110-avp/avp_ws/build /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros /home/lucerna/Documents/f110-avp/avp_ws/build/ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ouster_ros/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/depend
 

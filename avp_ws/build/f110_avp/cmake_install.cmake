@@ -1,8 +1,8 @@
-# Install script for directory: /home/lucerna/MEGAsync/project/AVP/avp_ws/src/f110_avp
+# Install script for directory: /home/lucerna/Documents/f110-avp/avp_ws/src/f110_avp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/lucerna/MEGAsync/project/AVP/avp_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/lucerna/Documents/f110-avp/avp_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/f110_avp/catkin_generated/installspace/f110_avp.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/lucerna/Documents/f110-avp/avp_ws/build/f110_avp/catkin_generated/installspace/f110_avp.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/f110_avp/cmake" TYPE FILE FILES
-    "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/f110_avp/catkin_generated/installspace/f110_avpConfig.cmake"
-    "/home/lucerna/MEGAsync/project/AVP/avp_ws/build/f110_avp/catkin_generated/installspace/f110_avpConfig-version.cmake"
+    "/home/lucerna/Documents/f110-avp/avp_ws/build/f110_avp/catkin_generated/installspace/f110_avpConfig.cmake"
+    "/home/lucerna/Documents/f110-avp/avp_ws/build/f110_avp/catkin_generated/installspace/f110_avpConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/f110_avp" TYPE FILE FILES "/home/lucerna/MEGAsync/project/AVP/avp_ws/src/f110_avp/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/f110_avp" TYPE FILE FILES "/home/lucerna/Documents/f110-avp/avp_ws/src/f110_avp/package.xml")
 endif()
 

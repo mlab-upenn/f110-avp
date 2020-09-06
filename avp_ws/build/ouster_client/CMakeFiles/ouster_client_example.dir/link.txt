@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Wextra  -rdynamic CMakeFiles/ouster_client_example.dir/src/main.cpp.o  -o /home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/ouster_client/ouster_client_example /home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/libouster_client.a -ljsoncpp 
+/usr/bin/c++    -rdynamic CMakeFiles/ouster_client_example.dir/src/main.cpp.o  -o ouster_client_example /home/lucerna/Documents/f110-avp/avp_ws/devel/lib/libouster_client.a -ljsoncpp 

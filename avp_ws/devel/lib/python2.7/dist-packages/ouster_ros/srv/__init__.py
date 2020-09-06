@@ -1,1 +1,1 @@
-from ._OS1ConfigSrv import *
+from ._OSConfigSrv import *
