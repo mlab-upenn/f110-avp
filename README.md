@@ -12,10 +12,11 @@ F110 Autonomout Valet Parking with Ouster LiDAR
 
 ### on Host
 1. Connect the lidar to LAN and check host ip address. To run Ouster ROS node:
-`cd avp_ws`
-`source devel/setup.bash`
-`roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_dest:=[Host IP Address] lidar_mode:=2048x10 viz:=false`
-
+```
+cd avp_ws
+source devel/setup.bash
+roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_dest:=[Host IP Address] lidar_mode:=2048x10 viz:=false
+```
 
 ### on Vehicle
 
