@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from skimage.transform import rescale
 from skimage.draw import polygon, polygon_perimeter
 from skimage.measure import label
-import avp_utils
+import avp_utils.avp_utils
 
 # global parameters
 initial_car_position = np.array([[1.05668068, -0.42237449, 0.03715369], [1.06900644, 0.42561084, 0.04487766]])

@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from skimage.transform import rescale
 from skimage.draw import polygon, polygon_perimeter
 from skimage.measure import label
-import second.core.box_np_ops as box_np_ops
+import avp_utils.second.core.box_np_ops as box_np_ops
 
 
 class OccupancyGrid():
