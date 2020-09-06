@@ -9,6 +9,8 @@ F110 Autonomout Valet Parking with Ouster LiDAR
 5. Be sure to add second.pytorch/ to your PYTHONPATH.
 
 ## To Run the Experiment
+`cd avp_ws`
+ 
 
 ### Code on System
 
