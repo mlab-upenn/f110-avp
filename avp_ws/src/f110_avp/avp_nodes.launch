@@ -1,0 +1,8 @@
+<launch>
+  <!-- Parameters -->
+  <!-- <rosparam command="load" file="$(find rrt)/config/rrt_params.yaml" /> -->
+
+  <!-- nodes -->
+  <node pkg="f110_avp" name="lidar_zmq_node" type="lidar_zmq_node.py" output="screen"/>
+  <node pkg="f110_avp" name="visualization_node" type="visualization_node.py" output="screen"/>
+</launch>

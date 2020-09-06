@@ -1,0 +1,2 @@
+f110_avp:ouster_client:ouster_ros:ouster_viz
+-DCATKIN_DEVEL_PREFIX=/home/lucerna/MEGAsync/project/AVP/avp_ws/devel -DCMAKE_INSTALL_PREFIX=/home/lucerna/MEGAsync/project/AVP/avp_ws/install -G Unix Makefiles

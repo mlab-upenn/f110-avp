@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/libouster_client.a  CMakeFiles/ouster_client.dir/src/os1.cpp.o CMakeFiles/ouster_client.dir/src/os1_util.cpp.o
+/usr/bin/ranlib /home/lucerna/MEGAsync/project/AVP/avp_ws/devel/lib/libouster_client.a

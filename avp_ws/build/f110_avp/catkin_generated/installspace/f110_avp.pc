@@ -1,0 +1,8 @@
+prefix=/home/lucerna/MEGAsync/project/AVP/avp_ws/install
+
+Name: f110_avp
+Description: Description of f110_avp
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
