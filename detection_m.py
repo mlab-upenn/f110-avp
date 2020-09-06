@@ -9,8 +9,8 @@ import sys
 import time
 from pathlib import Path
 import numpy as np
-import avp_utils.second.core.box_np_ops as box_np_ops
-from avp_utils.second.pytorch.inference import TorchInferenceContext
+import second.core.box_np_ops as box_np_ops
+from second.pytorch.inference import TorchInferenceContext
 
 def Preprocess(points, scale_up):
     points = np.transpose(points)
