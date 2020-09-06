@@ -9,11 +9,14 @@ F110 Autonomout Valet Parking with Ouster LiDAR
 5. Be sure to add second.pytorch/ to your PYTHONPATH.
 
 ## To Run the Experiment
+
+### on Host
+1. Connect the lidar to LAN and check host ip address. To run Ouster ROS node:
 `cd avp_ws`
- 
+`source devel/setup.bash`
+`roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_dest:=[Host IP Address] lidar_mode:=2048x10 viz:=false`
 
-### Code on System
 
-### Code on Vehicle
+### on Vehicle
 
 ## Result
