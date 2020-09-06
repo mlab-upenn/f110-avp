@@ -17,6 +17,8 @@ cd avp_ws
 source devel/setup.bash
 roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_dest:=[Host IP Address] lidar_mode:=2048x10 viz:=false
 ```
+2. Open rviz and check the point clouds.
+
 
 ### on Vehicle
 
