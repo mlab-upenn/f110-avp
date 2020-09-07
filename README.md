@@ -23,6 +23,8 @@ roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_d
 roslaunch avp_nodes.launch
 ```
 
+2.5 
+
 3. Run `detection_m.py` to start the pointpillars detection on the point cloud. "_m" is for multi-car setup. 
 ```
 conda activate pointpillars
