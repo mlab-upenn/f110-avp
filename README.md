@@ -31,13 +31,13 @@ conda activate pointpillars
 python3 ./avp_utils/f110_viewer.py
 ```
 
-4. Run `detection_m.py` to start the pointpillars detection on the point cloud.
+4. Run `detection.py` to start the pointpillars detection on the point cloud.
 ```
 conda activate pointpillars
 python3 -W ignore detection.py
 ```
 
-5. Run `localization_m.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
+5. Run `localization.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
 ```
 python3 localization.py
 ```
