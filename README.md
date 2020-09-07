@@ -11,13 +11,12 @@ F110 Autonomout Valet Parking with Ouster LiDAR
 ## To Run the Experiment
 
 ### on Host
-1. Connect the lidar to LAN and check host ip address. To run Ouster ROS node:
+1. Connect the lidar to LAN and check host ip address. Run Ouster ROS node and open an rviz to check the point clouds.
 ```
 cd avp_ws
 source devel/setup.bash
 roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_dest:=[Host IP Address] lidar_mode:=2048x10 viz:=false
 ```
-Open rviz and check the point clouds.
 
 2. Run lidar_zmq_node and visualization_node. lidar_zmq_node preprocesses the point cloud and publishes it on ZMQ. visualization_node is for all visualization items to show on rviz. Please use the attached .rviz file.
 ```
