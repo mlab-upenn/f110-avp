@@ -25,7 +25,7 @@ source devel/setup.bash
 roslaunch avp_nodes.launch
 ```
 
-3. Calibrate the point cloud to the setup.
+3. Calibrate the point cloud to the setup. Refer to the report on how to get good detection results.
 ```
 conda activate pointpillars
 python3 ./avp_utils/f110_viewer.py
