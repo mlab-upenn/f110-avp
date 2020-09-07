@@ -3,7 +3,7 @@ F110 Autonomout Valet Parking with Ouster LiDAR
 
 ## Installation
 1. Clone this repo.
-2. Please refer to installation in [PointPillars](https://github.com/nutonomy/second.pytorch) repo to install dependencies for PointPillars. Our repo contains needed code from PointPillars.
+2. Please refer to installation in [PointPillars](https://github.com/nutonomy/second.pytorch) repo to install dependencies for PointPillars. Our repo contains needed code from PointPillars so no need to clone theirs.
 3. Install [SparseConvNet](https://github.com/facebookresearch/SparseConvNet) and [ros_numpy](https://github.com/eric-wieser/ros_numpy).
 4. Install [ZeroMQ](http://wiki.zeromq.org/intro:get-the-software).
 5. Be sure to add second.pytorch/ to your PYTHONPATH.
