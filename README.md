@@ -26,11 +26,13 @@ roslaunch avp_nodes.launch
 3. Run `detection_m.py` to start the pointpillars detection on the point cloud. "_m" is for multi-car setup. 
 ```
 conda activate pointpillars
-python3 detection_m.py
+python3 -W ignore detection_m.py
 ```
 
 4. Run `localization_m.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
-
+```
+python3 localization_m.py
+```
 ### on Vehicle
 
 ## Result
