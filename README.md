@@ -18,7 +18,7 @@ source devel/setup.bash
 roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_dest:=[Host IP Address] lidar_mode:=2048x10 viz:=false
 ```
 
-2. Run lidar_zmq_node and visualization_node. lidar_zmq_node preprocesses the point cloud and publishes it on ZMQ. visualization_node is for all visualization items to show on rviz. Please use the attached .rviz file.
+2. Run `lidar_zmq_node` and `visualization_node` with `avp_nodes.launch`. `lidar_zmq_node` preprocesses the point cloud and publishes it on ZMQ. `visualization_node` is for all visualization items to show on rviz. Please use the attached .rviz file.
 ```
 roslaunch avp_nodes.launch
 ```
