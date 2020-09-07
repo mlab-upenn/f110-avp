@@ -20,18 +20,24 @@ roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_d
 
 2. Run `lidar_zmq_node` and `visualization_node` with `avp_nodes.launch`. `lidar_zmq_node` preprocesses the point cloud and publishes it on ZMQ. `visualization_node` is for all visualization items to show on rviz. Please use the attached .rviz file.
 ```
+cd avp_ws
+source devel/setup.bash
 roslaunch avp_nodes.launch
 ```
 
-2.5 
+3. Calibrate the point cloud to the setup.
+```
+conda activate pointpillars
+python3 ./avp_utils/f110_viewer.py
+```
 
-3. Run `detection_m.py` to start the pointpillars detection on the point cloud. "_m" is for multi-car setup. 
+4. Run `detection_m.py` to start the pointpillars detection on the point cloud. "_m" is for multi-car setup. 
 ```
 conda activate pointpillars
 python3 -W ignore detection_m.py
 ```
 
-4. Run `localization_m.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
+5. Run `localization_m.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
 ```
 python3 localization_m.py
 ```
