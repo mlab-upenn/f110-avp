@@ -6,34 +6,34 @@
 from __future__ import print_function
 import rospy
 import ros_numpy
-import geometry_msgs.msg
+# import geometry_msgs.msg
 import zmq
 import numpy as np
-from sensor_msgs.msg import PointCloud2, PointField
-import sensor_msgs.point_cloud2 as pc2
-import time
-# import numba
-from numba import jit
+from sensor_msgs.msg import PointCloud2#, PointField
+# import sensor_msgs.point_cloud2 as pc2
+# import time
 
 class lidar_zmq_node:
     def __init__(self):
-        lidarscan_topic = '/os1_cloud_node/points'
-        # lidarscan_topic = 'pc_transformed'
-        
-        self.lidar_sub = rospy.Subscriber(lidarscan_topic, PointCloud2, self.lidar_callback)
-        self.count = 0
-        self.average_shift_x = 0
-        self.average_shift_z = 0 
-        # self.points_save = np.zeros((64*1024, 3))
+        lidarscan_topic = '/os_cloud_node/points'
 
+        # adjust the numbers here to center the pc
+        self.yaw_rotation = -47/180.0*np.pi
+        self.pitch_rotation = 28/180.0*np.pi
+        self.roll_rotation = 2.65/180.0*np.pi
+        self.x_shift = -1.5
+        self.y_shift = 0
+        self.z_shift = 1.7
+        self.x_limit = [0.2, 2]
+        self.y_limit = [-1, 1]
+        self.z_limit = [-0.5, 0.5]
+
+        self.lidar_sub = rospy.Subscriber(lidarscan_topic, PointCloud2, self.lidar_callback)
         self.pc_pub = rospy.Publisher('pc_transformed', PointCloud2, queue_size = 1)
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.PUB)
         self.socket.setsockopt(zmq.SNDHWM, 1)
         self.socket.bind("tcp://*:5556")
-        # self.ind_list = np.array(range(1, 2048, 4))
-        # self.ind_list2 = np.array(range(0, 64, 3))
-        # self.m = self.rotation_matrix([0, 1, 0], -22/180.0*np.pi)
 
     def send_array(self, socket, A, flags=0, copy=True, track=False):
         """send a numpy array with metadata"""
@@ -66,51 +66,53 @@ class lidar_zmq_node:
         pc = ros_numpy.numpify(msg)
         pc = pc.flatten()
         
-        pc = pc[np.where( (pc['x'] < -1.5) & (pc['y'] > -1.1) & (pc['y'] < 1.1) )]
-        pc_cropped = np.empty((3, pc['x'].shape[0]))
-        pc_cropped[0, :] = pc['x']
-        pc_cropped[1, :] = pc['y']
-        pc_cropped[2, :] = pc['z']
-        m = self.rotation_matrix([0, 1, 0], -27/180.0*np.pi)
-        pc_transformed = self.rotation(pc_cropped, m)
-        pc_transformed = np.concatenate((pc_transformed, np.expand_dims(pc['intensity'], axis=0)), axis=0)
+        pc_transformed = np.empty((3, pc['x'].shape[0]))
+        pc_transformed[0, :] = pc['x']
+        pc_transformed[1, :] = pc['y']
+        pc_transformed[2, :] = pc['z']
+        m = self.rotation_matrix([0, 0, 1], self.yaw_rotation)
+        pc_transformed = self.rotation(pc_transformed, m)
+        m = self.rotation_matrix([0, 1, 0], self.pitch_rotation)
+        pc_transformed = self.rotation(pc_transformed, m)
+        m = self.rotation_matrix([1, 0, 0], self.roll_rotation)
+        pc_transformed = self.rotation(pc_transformed, m)
         
-        # calibration_count = 10
-        # if self.count < calibration_count:
-        #     shift_x = np.min(pc_transformed[0, :])
-        #     shift_z = np.min(pc_transformed[2, :])
-        #     self.average_shift_x += shift_x
-        #     self.average_shift_z += shift_z
-        #     self.count += 1
-        #     shift_x = self.average_shift_x / self.count
-        #     shift_z = self.average_shift_z / self.count
-        # elif self.count == calibration_count:
-        #     self.count += 1
-        #     self.average_shift_x /= calibration_count
-        #     self.average_shift_z /= calibration_count
-        #     shift_x = self.average_shift_x
-        #     shift_z = self.average_shift_z
-        #     print('Calibrated', self.average_shift_x, self.average_shift_z)
-        # else:
-        #     shift_x = self.average_shift_x
-        #     shift_z = self.average_shift_z
 
-
-        shift_x = -2.82
-        # shift_z = -1.54
-        shift_z = -1.45
-        pc_transformed[0, :] -= shift_x
-        pc_transformed[2, :] -= shift_z
-
+        pc_transformed[0, :] += self.x_shift
+        pc_transformed[1, :] += self.y_shift
+        pc_transformed[2, :] += self.z_shift
+        pc['x'] = pc_transformed[0, :]
+        pc['y'] = pc_transformed[1, :]
+        pc['z'] = pc_transformed[2, :]
+        pc = pc[np.where( (pc['x'] > self.x_limit[0]) & (pc['x'] < self.x_limit[1]) )]
+        pc = pc[np.where( (pc['y'] > self.y_limit[0]) & (pc['y'] < self.y_limit[1]) )]
+        pc = pc[np.where( (pc['z'] > self.z_limit[0]) & (pc['z'] < self.z_limit[1]) )]
+        
+        del pc_transformed
+        pc_transformed = np.empty((3, pc['x'].shape[0]))
+        pc_transformed[0, :] = pc['x']
+        pc_transformed[1, :] = pc['y']
+        pc_transformed[2, :] = pc['z']
+        m = self.rotation_matrix([0, 0, 1], 90/180.0*np.pi)
+        pc_transformed = self.rotation(pc_transformed, m)
         pc['x'] = pc_transformed[0, :]
         pc['y'] = pc_transformed[1, :]
         pc['z'] = pc_transformed[2, :]
 
+        del pc_transformed
+        pc_transformed = np.empty((4, pc['x'].shape[0]))
+        pc_transformed[0, :] = pc['x']
+        pc_transformed[1, :] = pc['y']
+        pc_transformed[2, :] = pc['z']
+        pc_transformed[3, :] = pc['intensity']
+        
+
         # points_range = [np.max(pc_transformed[0, :]), np.max(pc_transformed[1, :]), np.max(pc_transformed[2, :]), np.min(pc_transformed[0, :]), np.min(pc_transformed[1, :]), np.min(pc_transformed[2, :])]
-        # print('points_range', points_range)
+        points_range = [np.max(pc['x']), np.min(pc['x']), np.max(pc['y']), np.min(pc['y']), np.max(pc['z']), np.min(pc['z'])]
+        print('points_range', points_range)
 
         msg_transformed = ros_numpy.msgify(PointCloud2, pc) 
-        msg_transformed.header.frame_id = '/os1_lidar'
+        msg_transformed.header.frame_id = '/map'
         self.pc_pub.publish(msg_transformed)
         self.send_array(self.socket, pc_transformed)
         

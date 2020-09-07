@@ -548,6 +548,12 @@ class KittiViewer(QMainWindow):
         self.w_det_path = QLineEdit(det_path)
         up_scale = self.json_setting.get("up_scale", "")
         self.w_up_scale = QLineEdit(up_scale)
+        w_x_shift = self.json_setting.get("w_x_shift", "0")
+        self.w_x_shift = QLineEdit(w_x_shift)
+        w_y_shift = self.json_setting.get("w_y_shift", "0")
+        self.w_y_shift = QLineEdit(w_y_shift)
+        w_z_shift = self.json_setting.get("w_z_shift", "0")
+        self.w_z_shift = QLineEdit(w_z_shift)
 
         # self.w_cmd = QLineEdit()
         # self.w_cmd.returnPressed.connect(self.on_CmdReturnPressed)
@@ -573,6 +579,9 @@ class KittiViewer(QMainWindow):
         layout.addRow(QLabel("root path:"), self.w_root_path)
         layout.addRow(QLabel("PC path:"), self.w_det_path)
         layout.addRow(QLabel("Up Scale:"), self.w_up_scale)
+        layout.addRow(QLabel("x shift:"), self.w_x_shift)
+        layout.addRow(QLabel("y shift:"), self.w_y_shift)
+        layout.addRow(QLabel("z shift:"), self.w_z_shift)
         self.w_config_gbox.setLayout(layout)
 
         control_panel_layout.addWidget(self.w_config_gbox)
@@ -616,6 +625,7 @@ class KittiViewer(QMainWindow):
         self.w_save_image = QPushButton('save image')
         self.w_save_image.clicked.connect(self.on_saveimg_clicked)
         control_panel_layout.addWidget(self.w_image_save_path)
+        control_panel_layout.addWidget(self.w_save_image)
         control_panel_layout.addWidget(self.w_output)
         self.center_layout = QHBoxLayout()
 
@@ -925,16 +935,16 @@ class KittiViewer(QMainWindow):
         num_dt = dt_box_lidar.shape[0]
         print('num_dt: ', num_dt)
         self.info('scores', scores)
+        if num_dt != 0:
 
-        dt_box_color = np.tile(np.array(dt_box_color)[np.newaxis, ...], [num_dt, 1])
-
-        scores_rank = scores / scores[0]
-        # if self.w_config.get("DTScoreAsAlpha") and scores is not None:
-        # dt_box_color = np.concatenate([dt_box_color[:, :3], scores[..., np.newaxis]], axis=1)
-        dt_box_color = np.concatenate([dt_box_color[:, :3], scores_rank[..., np.newaxis]], axis=1)
-        # dt_box_color = np.concatenate([dt_box_color[:, :3], np.ones((scores[..., np.newaxis].shape))], axis=1)
-        self.w_pc_viewer.boxes3d("dt_boxes", dt_boxes_corners, dt_box_color,
-                                 self.w_config.get("DTBoxLineWidth"), 1.0)
+            dt_box_color = np.tile(np.array(dt_box_color)[np.newaxis, ...], [num_dt, 1])
+            scores_rank = scores / scores[0]
+            # if self.w_config.get("DTScoreAsAlpha") and scores is not None:
+            # dt_box_color = np.concatenate([dt_box_color[:, :3], scores[..., np.newaxis]], axis=1)
+            dt_box_color = np.concatenate([dt_box_color[:, :3], scores_rank[..., np.newaxis]], axis=1)
+            # dt_box_color = np.concatenate([dt_box_color[:, :3], np.ones((scores[..., np.newaxis].shape))], axis=1)
+            self.w_pc_viewer.boxes3d("dt_boxes", dt_boxes_corners, dt_box_color,
+                                    self.w_config.get("DTBoxLineWidth"), 1.0)
 
     def plot_pointcloud(self):
         point_color = self.w_config.get("PointColor")[:3]
@@ -964,16 +974,26 @@ class KittiViewer(QMainWindow):
 
     def load_info(self):
         self.json_setting.set("up_scale", str(float(self.w_up_scale.text())))
+        self.json_setting.set("w_x_shift", str(float(self.w_x_shift.text())))
+        self.json_setting.set("w_y_shift", str(float(self.w_y_shift.text())))
+        self.json_setting.set("w_z_shift", str(float(self.w_z_shift.text())))
 
         det_path = self.w_det_path.text()
         scale_up = float(self.w_up_scale.text())
+        w_x_shift = float(self.w_x_shift.text())
+        w_y_shift = float(self.w_y_shift.text())
+        w_z_shift = float(self.w_z_shift.text())
         self.json_setting.set("latest_det_path", det_path)
         points = np.transpose(np.load(det_path))
+        self.points_range = [np.max(points[:, 0]), np.max(points[:, 1]), np.max(points[:, 2]), np.min(points[:, 0]), np.min(points[:, 1]), np.min(points[:, 2])]
         
-        points = points[np.where( (points[:, 1] > -1.5) & (points[:, 1] < 1.5) )]
-        points[:, 0] -= np.min(points[:, 0])
-        points[:, 2] -= np.min(points[:, 2])
-        points[:, 2] += -0.06
+        points[:, 0] -= (self.points_range[0] + self.points_range[3]) / 2
+        points[:, 1] -= (self.points_range[1] + self.points_range[4]) / 2
+        points[:, 2] -= self.points_range[5]
+        
+        points[:, 0] += w_x_shift
+        points[:, 1] += w_y_shift
+        points[:, 2] += w_z_shift
         points = points[np.where( points[:, 2] > 0 )]
         points = points[np.where( points[:, 3] > 100 )]
 
@@ -981,8 +1001,8 @@ class KittiViewer(QMainWindow):
 
         self.points_range = [np.max(points[:, 0]), np.max(points[:, 1]), np.max(points[:, 2]), np.min(points[:, 0]), np.min(points[:, 1]), np.min(points[:, 2])]
         print(self.points_range)
-
         points = np.array(points) * scale_up
+        
     
         self.points_range = [np.max(points[:, 0]), np.max(points[:, 1]), np.max(points[:, 2]), np.min(points[:, 0]), np.min(points[:, 1]), np.min(points[:, 2])]
 

@@ -40,7 +40,7 @@
     <remap from="~/points" to="/os_cloud_node/points"/>
   </node>
 
-  <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0.785398 0 0 os_lidar frame" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0.785398 0 0 os_lidar map" />
 
   <!-- for compatibility with < 1.14 rosbags -->
   <!-- <node pkg="topic_tools" name="relay_lidar" type="relay" args="/os1_node/lidar_packets /os_node/lidar_packets" />

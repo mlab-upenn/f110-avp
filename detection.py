@@ -14,32 +14,41 @@ from second.pytorch.inference import TorchInferenceContext
 
 def Preprocess(points, scale_up):
     points = np.transpose(points)
-    
-    points = points[np.where( (points[:, 1] > -1.5) & (points[:, 1] < 1.5) )]
-    shift_x = np.min(points[:, 0])
-    shift_z = np.min(points[:, 2])
-    points[:, 2] += -0.14
+    points = points.copy()
+    points_range = [np.max(points[:, 0]), np.max(points[:, 1]), np.max(points[:, 2]), np.min(points[:, 0]), np.min(points[:, 1]), np.min(points[:, 2])]
+    points[:, 0] -= (points_range[0] + points_range[3]) / 2
+    points[:, 1] -= (points_range[1] + points_range[4]) / 2
+    points[:, 2] -= points_range[5]
+
+    w_x_shift = 1.5
+    w_y_shift = 2.0
+    w_z_shift = -0.05
+    points[:, 0] += w_x_shift
+    points[:, 1] += w_y_shift
+    points[:, 2] += w_z_shift
     points = points[np.where( points[:, 2] > 0 )]
     points = points[np.where( points[:, 3] > 100 )]
     points[:, 3] = 0
+    # print(points.shape[0])
 
     if points.shape[0] < 200:
-        return None, None, None, None
+        return None, None
 
     points_range = [np.max(points[:, 0]), np.max(points[:, 1]), np.max(points[:, 2]), np.min(points[:, 0]), np.min(points[:, 1]), np.min(points[:, 2])]
     # print('points_range', points_range)
     points = np.array(points) * scale_up
-    return points, points_range, shift_x, shift_z
+
+    return points, points_range
 
 def BuildVoxelNet():
-    config_path = Path('/home/lucerna/MEGAsync/project/AVP/second/configs/xyres_16.proto')
-    ckpt_path = Path('/home/lucerna/MEGAsync/project/AVP/second/voxelnet-331653.tckpt')
+    config_path = Path('second.pytorch/second/configs/xyres_16.proto')
+    ckpt_path = Path('second.pytorch/second/voxelnet-331653.tckpt')
     inference_ctx = TorchInferenceContext()
     inference_ctx.build(config_path)
     inference_ctx.restore(ckpt_path)
     return inference_ctx
 
-def PointPillarsInference(inference_ctx, points, points_range, scale_up, shift_x, shift_z):
+def PointPillarsInference(inference_ctx, points, points_range, scale_up):
     inputs = inference_ctx.get_inference_input_dict(points)
     with inference_ctx.ctx():
         predictions_dicts = inference_ctx.inference(inputs)
@@ -51,11 +60,10 @@ def PointPillarsInference(inference_ctx, points, points_range, scale_up, shift_x
     scores = np.array([detection_anno["scores"].detach().cpu().numpy()])[0]
 
     # filter by score
-    keep_list = np.where(scores > 0.35)[0]
+    keep_list = np.where(scores > 0.3)[0]
     dt_box_lidar = dt_box_lidar[keep_list, :]
     scores = scores[keep_list]
     dt_box_lidar[:, :6] /= scale_up
-    dt_box_lidar[:, 2] -= -0.14
 
     # filter bbox by its center
     centers = dt_box_lidar[:, :3]
@@ -66,13 +74,16 @@ def PointPillarsInference(inference_ctx, points, points_range, scale_up, shift_x
     if num_dt == 0:
         print('miss')
         return None
-    # print('num_dt', num_dt)
-    result_array = np.zeros((2, 7))
-    result_array[0, :] = dt_box_lidar[keep_list[0], :]
-    result_array[1, 0] = time.time()
-    result_array[1, 1] = scores[keep_list[0]]
-    # result_array[1, 2] = 1 # valid indicator
-    print('scores: {:.8f}'.format(result_array[1, 1]), 'angles: {:.8f}'.format(dt_box_lidar[keep_list[0], 6]), 'time: {:.4f}'.format(result_array[1, 0]))
+    print('num_dt', num_dt)
+
+    result_array = np.zeros((num_dt+1, 2, 7))
+    result_array[0, 0, 0] = num_dt
+    
+    for ind_dt in range(num_dt):
+        result_array[ind_dt+1, 0, :] = dt_box_lidar[keep_list[ind_dt], :]
+        result_array[ind_dt+1, 1, 0] = time.time()
+        result_array[ind_dt+1, 1, 1] = scores[keep_list[ind_dt]]
+        print('scores: {:.8f}'.format(result_array[ind_dt+1, 1, 1]), 'angles: {:.8f}'.format(dt_box_lidar[keep_list[ind_dt], 6]), 'time: {:.4f}'.format(result_array[ind_dt+1, 1, 0]))
     return result_array
 
 
@@ -109,14 +120,16 @@ def main():
     socket_result.setsockopt(zmq.SNDHWM, 1)
     socket_result.bind("tcp://*:5560")
     print('Sending inference')
-    scale_up = 7.0
+    scale_up = 6.5
     while True:
         points_raw = recv_array(socket_pc)
-        points, points_range, shift_x, shift_z = Preprocess(points_raw, scale_up)
+        points, points_range = Preprocess(points_raw, scale_up)
         if points is None:
+            print('no point cloud received.')
             continue
-        result_array = PointPillarsInference(inference_ctx, points, points_range, scale_up, shift_x, shift_z)
+        result_array = PointPillarsInference(inference_ctx, points, points_range, scale_up)
         if result_array is not None:
+            # print(result_array)
             send_array(socket_result, result_array)
 
 

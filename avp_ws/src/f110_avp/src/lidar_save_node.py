@@ -9,27 +9,26 @@ import ros_numpy
 import geometry_msgs.msg
 import zmq
 import numpy as np
-from sensor_msgs.msg import PointCloud2, PointField
+from sensor_msgs.msg import PointCloud2#, PointField
 import sensor_msgs.point_cloud2 as pc2
 import time
 # import numba
-from numba import jit
+# from numba import jit
 
-class lidar_zmq_node:
+class lidar_save_node:
     def __init__(self):
-        lidarscan_topic = '/os1_cloud_node/points'
-        # lidarscan_topic = 'pc_transformed'
+        # lidarscan_topic = '/os_cloud_node/points'
+        lidarscan_topic = 'pc_transformed'
         
         self.lidar_sub = rospy.Subscriber(lidarscan_topic, PointCloud2, self.lidar_callback)
         # self.count = 0
         # self.points_save = np.zeros((64*1024, 3))
 
         self.pc_pub = rospy.Publisher('pc_transformed', PointCloud2, queue_size = 1)
-        self.context = zmq.Context()
-        self.socket = self.context.socket(zmq.PUB)
-        self.socket.bind("tcp://*:5556")
+        # self.context = zmq.Context()
+        # self.socket = self.context.socket(zmq.PUB)
+        # self.socket.bind("tcp://*:5556")
         self.ind_list = np.array(range(0, 2048, 1))
-        self.m = self.rotation_matrix([0, 1, 0], -27/180.0*np.pi)
 
     def send_array(self, socket, A, flags=0, copy=True, track=False):
         """send a numpy array with metadata"""
@@ -59,25 +58,13 @@ class lidar_zmq_node:
         return np.dot(self.m, input)
 
     def lidar_callback(self, msg):
-        # time1 = time.time()
-        pc = ros_numpy.numpify(msg)[:, self.ind_list].flatten()
-        pc = pc[np.where( (pc['x'] < -1.5) & (pc['y'] > -1.5) & (pc['y'] < 1.5) )]
-        pc_cropped = np.empty((3, pc['x'].shape[0]))
-        pc_cropped[0, :] = pc['x']
-        pc_cropped[1, :] = pc['y']
-        pc_cropped[2, :] = pc['z']
-        pc_transformed = self.rotation(pc_cropped)
-        pc_transformed = np.concatenate((pc_transformed, np.expand_dims(pc['intensity'], axis=0)), axis=0)
-        # print(pc_transformed.shape)
-        pc['x'] = pc_transformed[0, :]
-        pc['y'] = pc_transformed[1, :]
-        pc['z'] = pc_transformed[2, :]
-
-        msg_transformed = ros_numpy.msgify(PointCloud2, pc) 
-        msg_transformed.header.frame_id = '/os1_lidar'
-        self.pc_pub.publish(msg_transformed)
-        # print('elapsed time: ', time.time() - time1)
-        # self.send_array(self.socket, pc_transformed)
+        pc = ros_numpy.numpify(msg)
+        pc = pc.flatten()
+        pc_transformed = np.empty((4, pc['x'].shape[0]))
+        pc_transformed[0, :] = pc['x']
+        pc_transformed[1, :] = pc['y']
+        pc_transformed[2, :] = pc['z']
+        pc_transformed[3, :] = pc['intensity']
         print(str(msg.header.stamp))
         np.save(str(msg.header.stamp) + '.npy', pc_transformed)
         rospy.sleep(1)
@@ -99,9 +86,9 @@ class lidar_zmq_node:
 
         
 def main():
-    rospy.init_node("lidar_zmq_node", anonymous=True)
-    node = lidar_zmq_node()
-    print('Sending point cloud...')
+    rospy.init_node("lidar_save_node", anonymous=True)
+    node = lidar_save_node()
+    print('Saving point cloud...')
     rospy.spin()
 
 if __name__ == '__main__':
