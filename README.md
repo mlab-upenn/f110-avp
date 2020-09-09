@@ -25,21 +25,21 @@ source devel/setup.bash
 roslaunch avp_nodes.launch
 ```
 
-3. Calibrate the point cloud to the setup.
+3. Calibrate the point cloud to the setup. Refer to the report on how to get good detection results.
 ```
 conda activate pointpillars
 python3 ./avp_utils/f110_viewer.py
 ```
 
-4. Run `detection_m.py` to start the pointpillars detection on the point cloud. "_m" is for multi-car setup. 
+4. Run `detection.py` to start the pointpillars detection on the point cloud.
 ```
 conda activate pointpillars
-python3 -W ignore detection_m.py
+python3 -W ignore detection.py
 ```
 
-5. Run `localization_m.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
+5. Run `localization.py` to start the localization process and you should see bounding boxes in rviz now. Please refer to the report on the process of localization.
 ```
-python3 localization_m.py
+python3 localization.py
 ```
 ### on Vehicle
 
