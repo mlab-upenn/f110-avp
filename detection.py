@@ -12,25 +12,22 @@ import numpy as np
 import second.core.box_np_ops as box_np_ops
 from second.pytorch.inference import TorchInferenceContext
 
+w_x_shift = 2
+w_y_shift = 1
+w_z_shift = -0.01
+scale_up = 6.8
+detection_thresh = 0.4
+
 def Preprocess(points, scale_up):
     points = np.transpose(points)
     points = points.copy()
-    points_range = [np.max(points[:, 0]), np.max(points[:, 1]), np.max(points[:, 2]), np.min(points[:, 0]), np.min(points[:, 1]), np.min(points[:, 2])]
-    points[:, 0] -= (points_range[0] + points_range[3]) / 2
-    points[:, 1] -= (points_range[1] + points_range[4]) / 2
-    points[:, 2] -= points_range[5]
 
-    w_x_shift = 1.5
-    w_y_shift = 2.0
-    w_z_shift = -0.05
     points[:, 0] += w_x_shift
     points[:, 1] += w_y_shift
     points[:, 2] += w_z_shift
     points = points[np.where( points[:, 2] > 0 )]
-    points = points[np.where( points[:, 3] > 100 )]
     points[:, 3] = 0
-    # print(points.shape[0])
-
+    
     if points.shape[0] < 200:
         return None, None
 
@@ -60,10 +57,17 @@ def PointPillarsInference(inference_ctx, points, points_range, scale_up):
     scores = np.array([detection_anno["scores"].detach().cpu().numpy()])[0]
 
     # filter by score
-    keep_list = np.where(scores > 0.3)[0]
+    keep_list = np.where(scores > detection_thresh)[0]
     dt_box_lidar = dt_box_lidar[keep_list, :]
     scores = scores[keep_list]
     dt_box_lidar[:, :6] /= scale_up
+    dt_box_lidar[:, 0] -= w_x_shift
+    dt_box_lidar[:, 1] -= w_y_shift
+    dt_box_lidar[:, 2] -= w_z_shift
+    points_range[0] -= w_x_shift
+    points_range[3] -= w_x_shift
+    points_range[1] -= w_y_shift
+    points_range[4] -= w_y_shift
 
     # filter bbox by its center
     centers = dt_box_lidar[:, :3]
@@ -120,7 +124,7 @@ def main():
     socket_result.setsockopt(zmq.SNDHWM, 1)
     socket_result.bind("tcp://*:5560")
     print('Sending inference')
-    scale_up = 6.5
+
     while True:
         points_raw = recv_array(socket_pc)
         points, points_range = Preprocess(points_raw, scale_up)

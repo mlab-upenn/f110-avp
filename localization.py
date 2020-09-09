@@ -12,7 +12,10 @@ from skimage.measure import label
 import avp_utils.avp_utils as avp_utils
 
 # global parameters
-initial_car_position = np.array([[1.05668068, -0.42237449, 0.03715369], [1.06900644, 0.42561084, 0.04487766]])
+control_row = []
+control_row.append([0.00963306, -0.34061038, -0.06735838, 0.28])
+control_row = np.array(control_row)
+print('control_row', control_row.shape)
 ip_car_1 = "tcp://192.168.1.2:5559"
 
 class OccupancyGrid():
@@ -46,11 +49,8 @@ def recv_array(socket, flags=0, copy=True, track=False):
     A = np.frombuffer(buf, dtype=md['dtype'])
     return A.reshape(md['shape'])
 
-def find_coords(input, resolution, is_y = 0):
-    if is_y == 0:
-        return (np.floor(input * resolution))
-    else:
-        return (np.floor(input * resolution) + is_y)
+def find_coords(input, resolution, half_dim = 0):
+    return (np.floor(input * resolution) + half_dim)
 
 def find_neighbours(coord_x, coord_y, limit_x, limit_y, option = 0):
     if option == 0:
@@ -115,9 +115,9 @@ def main():
     socket_grid.bind("tcp://*:5558")
     print('Sending occupancy grid')
 
-    x_clip = np.array([0, 1.5])
-    y_clip = np.array([-1.5, 1.5])
-    z_clip = 0.14
+    x_clip = np.array([-1, 1])
+    y_clip = np.array([-1, 0.5])
+    z_clip = 0
     grid_res = 100
     object_res = 50
 
@@ -136,6 +136,7 @@ def main():
     pc_in = None
     inference_in = None
     odom_info = None
+    match_inds = np.zeros((control_row.shape[0],))
 
     last_orientation = 0
     last_postion = np.zeros((1, 3))
@@ -170,9 +171,9 @@ def main():
             pc = pc[np.where( pc[:, 0] < x_clip[1] )]
             pc[:, 2] += -z_clip
             pc = pc[np.where( (pc[:, 2] > 0) )]
-            pc = pc[np.where( (pc[:, 3] > 150) )]
-            pc_grid = pc[:, 0:2]
-            pc_grid[:, 0] = (np.floor(pc_grid[:, 0] * object_res))
+            # pc = pc[np.where( (pc[:, 3] > 150) )]
+            pc_grid = pc[:, 0:2] # from occupancy grid
+            pc_grid[:, 0] = (np.floor(pc_grid[:, 0] * object_res) + dim_x_object/2)
             pc_grid[:, 1] = (np.floor(pc_grid[:, 1] * object_res) + dim_y_object/2)
             pc_grid = pc_grid.astype(int)
 
@@ -190,29 +191,22 @@ def main():
             # clean the matching row 
             for row_ind in range(matching_row.shape[0]):
                 if matching_row[row_ind, 0] > 0:
-                    if inference_in[1, 1, 0] - matching_row[row_ind, 7] > 3:
+                    if inference_in[1, 1, 0] - matching_row[row_ind, 7] > 3: # discard the object if we lose track of it for 3 seconds
                         matching_row[row_ind, :] = np.zeros((12))
 
             num_dt = inference_in[0, 0, 0]
-            match_inds = []
-            matched_row_ind = []
             # looking for matches in the matching_row
             for dt_ind in range(int(num_dt)):
                 if dt_ind >= matching_row.shape[0]:
                     break
                 distances = np.sqrt((matching_row[:, 1] - inference_in[dt_ind+1, 0, 0]) ** 2 + (matching_row[:, 2] - inference_in[dt_ind+1, 0, 1]) ** 2)
                 matches = np.argsort(distances)
-                if distances[matches[0]] >= matching_distance_threshold:
-                    for row_ind in range(matching_row.shape[0]):
+                # print(distances)
+                # print(matches[0])
+                if distances[matches[0]] >= matching_distance_threshold: # Is the detection in match_row?
+                    for row_ind in range(matching_row.shape[0]): # Find an empty row to put this detection
                         if matching_row[row_ind, 0] == 0:
-                            # trying to determine which car is this
-                            cali_distances = np.sqrt((inference_in[dt_ind+1, 0, 0] - initial_car_position[:, 0]) ** 2 + (inference_in[dt_ind+1, 0, 1] - initial_car_position[:, 1]) ** 2)
-                            cali_matches = np.argsort(cali_distances)
-                            if distances[cali_matches[0]] >= matching_distance_threshold:
-                                matching_row[row_ind, 0] = cali_matches[0]+1 # indicator, 9 means it's unknown
-                            else:
-                                matching_row[row_ind, 0] = 9 # indicator, 9 means it's unknown
-
+                            matching_row[row_ind, 0] = 9 # indicator, 9 means it's unknown
                             matching_row[row_ind, 1] = inference_in[dt_ind+1, 0, 0] # x
                             matching_row[row_ind, 2] = inference_in[dt_ind+1, 0, 1] # y
                             matching_row[row_ind, 3] = inference_in[dt_ind+1, 0, 2] # z
@@ -224,45 +218,48 @@ def main():
                             matching_row[row_ind, 9] = inference_in[dt_ind+1, 1, 1] # score
                             # matching_row[row_ind, 10]  detection_count
                             # matching_row[row_ind, 11]  flip_count
-                            match_inds.append([dt_ind, row_ind])
-                            matched_row_ind.append(row_ind)
                             break
                 else:
                     row_ind = matches[0]
-                    if not np.isin(row_ind, matched_row_ind):
-                        match_inds.append([dt_ind, row_ind])
-                        matched_row_ind.append(row_ind)
-            match_inds = np.asarray(match_inds)
-            # print(match_inds)
+                    if not (matching_row[row_ind, 10] == calibration_count and matching_row[row_ind, 11] / matching_row[row_ind, 10] >= 0.5): 
+                        inference_in[dt_ind+1, 0, 6] -= np.pi # only make adjustment at the end of calibration
+                    matching_row[row_ind, 1] = inference_in[dt_ind+1, 0, 0] # x
+                    matching_row[row_ind, 2] = inference_in[dt_ind+1, 0, 1] # y
+                    matching_row[row_ind, 3] = inference_in[dt_ind+1, 0, 2] # z
+                    matching_row[row_ind, 4] = 0.28 # width
+                    matching_row[row_ind, 5] = 0.57 # length
+                    matching_row[row_ind, 6] = inference_in[dt_ind+1, 0, 5] # height                    
+                    matching_row[row_ind, 8] = inference_in[dt_ind+1, 0, 6] # theta
+                    matching_row[row_ind, 9] = inference_in[dt_ind+1, 1, 1] # score
+
+                    delta_time = inference_in[dt_ind+1, 1, 0] - matching_row[row_ind, 7]
+                    if np.abs(np.pi - np.abs(matching_row[row_ind, 8] - inference_in[dt_ind+1, 0, 6])) < 0.6 and delta_time != 0:
+                        if matching_row[row_ind, 10] < calibration_count and matching_row[row_ind, 9] > 0.6:
+                            matching_row[row_ind, 11] += 1 # flip_count
+                    matching_row[row_ind, 7] = inference_in[dt_ind+1, 1, 0] # time
+            # print('matching_row', matching_row)
             
+            for control_row_ind in range(control_row.shape[0]):
+                distances = np.sqrt((matching_row[:, 1] - control_row[control_row_ind, 0]) ** 2 + (matching_row[:, 2] - control_row[control_row_ind, 1]) ** 2)
+                matches = np.argsort(distances)
+                if distances[matches[0]] <= matching_distance_threshold:
+                    match_inds[control_row_ind] = control_row_ind
+                    control_row[control_row_ind, :] = matching_row[matches[0], 1:5]
+                    matching_row[matches[0], 0] = control_row_ind + 1
+
             # create and send bbox info
-            bbox_array = np.zeros((match_inds.shape[0], 10, 3))
-            for count, inds in enumerate(match_inds):
-                dt_ind = inds[0]
-                row_ind = inds[1]
-                if matching_row[row_ind, 10] == calibration_count:
+            bbox_arrays = []
+            bbox_array = np.zeros((10, 3))
+            for row_ind in range(matching_row.shape[0]):
+                if matching_row[row_ind, 0] == 0:
+                    continue
+
+                if matching_row[row_ind, 10] < calibration_count and matching_row[row_ind, 9] > 0.6:
+                    matching_row[row_ind, 10] += 1
+                elif matching_row[row_ind, 10] == calibration_count:
                     print('Calibrated')
                     matching_row[row_ind, 10] += 1
-                    print('Position:', matching_row[row_ind, 1:4])
-                if matching_row[row_ind, 10] < calibration_count and inference_in[dt_ind+1, 1, 1] > 0.6:
-                    matching_row[row_ind, 10] += 1
-                if matching_row[row_ind, 7] != 0:
-                    delta_time = inference_in[dt_ind+1, 1, 0] - matching_row[row_ind, 7]
-                    if np.abs(np.pi - np.abs(matching_row[row_ind, 8] - inference_in[dt_ind+1, 0, 6])) < 0.6 and delta_time:
-                        if matching_row[row_ind, 10] < calibration_count and inference_in[dt_ind+1, 1, 1] > 0.6:
-                            matching_row[row_ind, 11] += 1 # flip_count
-                        if not (matching_row[row_ind, 10] == calibration_count and matching_row[row_ind, 11] / matching_row[row_ind, 10] >= 0.5): 
-                            inference_in[dt_ind+1, 0, 6] -= np.pi # only make adjustment at the end of calibration
-                
-                matching_row[row_ind, 1] = inference_in[dt_ind+1, 0, 0] # x
-                matching_row[row_ind, 2] = inference_in[dt_ind+1, 0, 1] # y
-                matching_row[row_ind, 3] = inference_in[dt_ind+1, 0, 2] # z
-                matching_row[row_ind, 6] = inference_in[dt_ind+1, 0, 5] # height
-                matching_row[row_ind, 7] = inference_in[dt_ind+1, 1, 0] # time
-                matching_row[row_ind, 8] = inference_in[dt_ind+1, 0, 6] # theta
-                matching_row[row_ind, 9] = inference_in[dt_ind+1, 1, 1] # score
-
-                # print(matching_row[row_ind, 11])
+                    print('Position:', matching_row[row_ind, 1:5])
                 
                 dt_box_lidar = np.zeros((1, 7))
                 dt_box_lidar[0, :3] = matching_row[row_ind, 1:4]
@@ -274,93 +271,103 @@ def main():
                     dt_box_lidar[:, 6],
                     origin=[0.5, 0.5, 0],
                     axis=2)
-                bbox_array[count, 0:8, :] = dt_boxes_corners
-                bbox_array[count, 8, :] = matching_row[row_ind, 1:4] # center position
-                bbox_array[count, 9, 0] = matching_row[row_ind, 8] # orientation
-                bbox_array[count, 9, 1] = matching_row[row_ind, 0] # calibration
-            send_array(socket_box, bbox_array)
+                bbox_array[0:8, :] = dt_boxes_corners
+                bbox_array[8, :] = matching_row[row_ind, 1:4] # center position
+                bbox_array[9, 0] = matching_row[row_ind, 8] # orientation
+                bbox_array[9, 1] = matching_row[row_ind, 0] # calibration
+                bbox_arrays.append(bbox_array.copy())
+                # print(bbox_arrays)
+            # print(bbox_arrays)
+            bbox_arrays = np.array(bbox_arrays)
+            send_array(socket_box, bbox_arrays)
+
+
+                
+
 
         # occupancy grid
-        if first_time == 0 and pc_grid.shape[0] > 1:
-            car_matrix = np.zeros([dim_x_object, dim_y_object])
-            for count, inds in enumerate(match_inds):
-                # add car detection in the grid
-                rect_x = np.zeros((4, ))
-                rect_y = np.zeros((4, ))
-                rect_x[0] = find_coords(bbox_array[count, 0, 0], object_res)
-                rect_y[0] = find_coords(bbox_array[count, 0, 1], object_res, dim_y_object/2)
-                rect_x[1] = find_coords(bbox_array[count, 4, 0], object_res)
-                rect_y[1] = find_coords(bbox_array[count, 4, 1], object_res, dim_y_object/2)
-                rect_x[2] = find_coords(bbox_array[count, 6, 0], object_res)
-                rect_y[2] = find_coords(bbox_array[count, 6, 1], object_res, dim_y_object/2)
-                rect_x[3] = find_coords(bbox_array[count, 2, 0], object_res)
-                rect_y[3] = find_coords(bbox_array[count, 2, 1], object_res, dim_y_object/2)
-                car_coords_x, car_coords_y = np.array(polygon(rect_x, rect_y, shape = (dim_x_object, dim_y_object)))
-                car_matrix[car_coords_x, car_coords_y] = 1
+        # if first_time == 0 and pc_grid.shape[0] > 1:
+        # # if False:
+        #     car_matrix = np.zeros([dim_x_object, dim_y_object])
+        #     for count, inds in enumerate(match_inds):
+        #         # add car detection in the grid
+        #         rect_x = np.zeros((4, ))
+        #         rect_y = np.zeros((4, ))
+        #         rect_x[0] = find_coords(bbox_array[count, 0, 0], object_res, dim_x_object/2)
+        #         rect_y[0] = find_coords(bbox_array[count, 0, 1], object_res, dim_y_object/2)
+        #         rect_x[1] = find_coords(bbox_array[count, 4, 0], object_res, dim_x_object/2)
+        #         rect_y[1] = find_coords(bbox_array[count, 4, 1], object_res, dim_y_object/2)
+        #         rect_x[2] = find_coords(bbox_array[count, 6, 0], object_res, dim_x_object/2)
+        #         rect_y[2] = find_coords(bbox_array[count, 6, 1], object_res, dim_y_object/2)
+        #         rect_x[3] = find_coords(bbox_array[count, 2, 0], object_res, dim_x_object/2)
+        #         rect_y[3] = find_coords(bbox_array[count, 2, 1], object_res, dim_y_object/2)
+        #         car_coords_x, car_coords_y = np.array(polygon(rect_x, rect_y, shape = (dim_x_object, dim_y_object)))
+        #         car_matrix[car_coords_x, car_coords_y] = 1
 
-                rect_x[0] = find_coords(bbox_array[count, 0, 0], grid_res)
-                rect_y[0] = find_coords(bbox_array[count, 0, 1], grid_res, dim_y/2)
-                rect_x[1] = find_coords(bbox_array[count, 4, 0], grid_res)  
-                rect_y[1] = find_coords(bbox_array[count, 4, 1], grid_res, dim_y/2)
-                rect_x[2] = find_coords(bbox_array[count, 6, 0], grid_res)
-                rect_y[2] = find_coords(bbox_array[count, 6, 1], grid_res, dim_y/2)
-                rect_x[3] = find_coords(bbox_array[count, 2, 0], grid_res)
-                rect_y[3] = find_coords(bbox_array[count, 2, 1], grid_res, dim_y/2)
-                car_peri_coords_x, car_peri_coords_y = np.array(polygon_perimeter(rect_x, rect_y, shape = (dim_x, dim_y), clip = True))
+        #         rect_x[0] = find_coords(bbox_array[count, 0, 0], grid_res, dim_x/2)
+        #         rect_y[0] = find_coords(bbox_array[count, 0, 1], grid_res, dim_y/2)
+        #         rect_x[1] = find_coords(bbox_array[count, 4, 0], grid_res, dim_x/2)  
+        #         rect_y[1] = find_coords(bbox_array[count, 4, 1], grid_res, dim_y/2)
+        #         rect_x[2] = find_coords(bbox_array[count, 6, 0], grid_res, dim_x/2)
+        #         rect_y[2] = find_coords(bbox_array[count, 6, 1], grid_res, dim_y/2)
+        #         rect_x[3] = find_coords(bbox_array[count, 2, 0], grid_res, dim_x/2)
+        #         rect_y[3] = find_coords(bbox_array[count, 2, 1], grid_res, dim_y/2)
+        #         car_peri_coords_x, car_peri_coords_y = np.array(polygon_perimeter(rect_x, rect_y, shape = (dim_x, dim_y), clip = True))
 
-                # if an occupied grid's neighbor is in car, then that grid is also in car
-                car_matrix_object = np.zeros([dim_x_object, dim_y_object])
-                pc_grid = np.transpose(np.array(np.where(object_matrix == 1)))
-                for ind in range(pc_grid.shape[0]):
-                    if car_matrix[pc_grid[ind, 0], pc_grid[ind, 1]] == 1:
-                        car_matrix_object[pc_grid[ind, 0], pc_grid[ind, 1]] = 1
-                    else:
-                        find_neighbor = 0
-                        neighbors = find_neighbours(pc_grid[ind, 0], pc_grid[ind, 1], dim_x_object, dim_y_object, option = 0)
-                        for neighbor in neighbors:
-                            if object_matrix[neighbor[0], neighbor[1]] == 1:
-                                find_neighbor = 1
-                            if car_matrix[neighbor[0], neighbor[1]] == 1:
-                                car_matrix_object[pc_grid[ind, 0], pc_grid[ind, 1]] = 1
-                                find_neighbor = 1
-                                continue
-                        if find_neighbor == 0:
-                            # remove isolated points
-                            object_matrix_copy[pc_grid[ind, 0], pc_grid[ind, 1]] = 0
+        #         # if an occupied grid's neighbor is in car, then that grid is also in car
+        #         car_matrix_object = np.zeros([dim_x_object, dim_y_object])
+        #         pc_grid = np.transpose(np.array(np.where(object_matrix == 1)))
+        #         for ind in range(pc_grid.shape[0]):
+        #             if car_matrix[pc_grid[ind, 0], pc_grid[ind, 1]] == 1:
+        #                 car_matrix_object[pc_grid[ind, 0], pc_grid[ind, 1]] = 1
+        #             else:
+        #                 find_neighbor = 0
+        #                 neighbors = find_neighbours(pc_grid[ind, 0], pc_grid[ind, 1], dim_x_object, dim_y_object, option = 0)
+        #                 for neighbor in neighbors:
+        #                     if object_matrix[neighbor[0], neighbor[1]] == 1:
+        #                         find_neighbor = 1
+        #                     if car_matrix[neighbor[0], neighbor[1]] == 1:
+        #                         car_matrix_object[pc_grid[ind, 0], pc_grid[ind, 1]] = 1
+        #                         find_neighbor = 1
+        #                         continue
+        #                 if find_neighbor == 0:
+        #                     # remove isolated points
+        #                     object_matrix_copy[pc_grid[ind, 0], pc_grid[ind, 1]] = 0
                 
-                # use connected body to find the car
-                matrix_labels, num = label(object_matrix_copy, connectivity=2, return_num=True)
-                find_flag = 0
-                for num_ind in range(num+1):
-                    label_xy = np.array(np.where(matrix_labels == num_ind))
-                    if num_ind != 0:
-                        for ind in range(label_xy.shape[1]):
-                            if car_matrix_object[label_xy[0, ind], label_xy[1, ind]] == 1:
-                                car_matrix_object[label_xy[0, :], label_xy[1, :]] = 1
-                                find_flag = 1
-                            if find_flag == 1:
-                                break
-                            # print(label_xy.shape[1], ind)
+        #         # use connected body to find the car
+        #         matrix_labels, num = label(object_matrix_copy, connectivity=2, return_num=True)
+        #         find_flag = 0
+        #         for num_ind in range(num+1):
+        #             label_xy = np.array(np.where(matrix_labels == num_ind))
+        #             if num_ind != 0:
+        #                 for ind in range(label_xy.shape[1]):
+        #                     if car_matrix_object[label_xy[0, ind], label_xy[1, ind]] == 1:
+        #                         car_matrix_object[label_xy[0, :], label_xy[1, :]] = 1
+        #                         find_flag = 1
+        #                     if find_flag == 1:
+        #                         break
+        #                     # print(label_xy.shape[1], ind)
 
-                pc_grid = np.transpose(np.array(np.where(car_matrix_object == 1)))
-                object_matrix_copy[pc_grid[:, 0], pc_grid[:, 1]] = 0
+        #         pc_grid = np.transpose(np.array(np.where(car_matrix_object == 1)))
+        #         object_matrix_copy[pc_grid[:, 0], pc_grid[:, 1]] = 0
         
-                car_matrix_object_big = rescale(car_matrix_object, grid_res/object_res, anti_aliasing=False)
-                occupancy_grid.matrix[np.where(car_matrix_object_big > 0)] = 2
-                occupancy_grid.matrix[car_peri_coords_x, car_peri_coords_y] = 10 + matching_row[inds[1], 0] # perimeter line
+        #         car_matrix_object_big = rescale(car_matrix_object, grid_res/object_res, anti_aliasing=False)
+        #         occupancy_grid.matrix[np.where(car_matrix_object_big > 0)] = 2
+        #         occupancy_grid.matrix[car_peri_coords_x, car_peri_coords_y] = 10 + matching_row[inds[1], 0] # perimeter line
             
-            object_matrix_big = rescale(object_matrix_copy, grid_res/object_res, anti_aliasing=False)
-            occupancy_grid.matrix[np.where(object_matrix_big > 0)] = 1
-            occupancy_grid.update_image()
-            car_matrix_big = rescale(car_matrix, grid_res/object_res, anti_aliasing=False)
-            car_matrix_big[np.where(car_matrix_big > 0)] = 1
-            # np.savez('car_info', occupancy_grid.matrix, occupancy_grid.image, np.array([find_coords(bbox_array[:, 8, 0], grid_res), find_coords(bbox_array[:, 8, 1], grid_res, dim_y/2)]), np.array(bbox_array[:, 9, 0]), car_matrix_big) 
-            send_array(socket_grid, occupancy_grid.image)
-        else:
-            object_matrix_big = rescale(object_matrix_copy, grid_res/object_res, anti_aliasing=False)
-            occupancy_grid.matrix[np.where(object_matrix_big > 0)] = 1
-            occupancy_grid.update_image()
-            send_array(socket_grid, occupancy_grid.image)
+        #     object_matrix_big = rescale(object_matrix_copy, grid_res/object_res, anti_aliasing=False)
+        #     occupancy_grid.matrix[np.where(object_matrix_big > 0)] = 1
+        #     occupancy_grid.update_image()
+        #     car_matrix_big = rescale(car_matrix, grid_res/object_res, anti_aliasing=False)
+        #     car_matrix_big[np.where(car_matrix_big > 0)] = 1
+        #     # np.savez('car_info', occupancy_grid.matrix, occupancy_grid.image, np.array([find_coords(bbox_array[:, 8, 0], grid_res), find_coords(bbox_array[:, 8, 1], grid_res, dim_y/2)]), np.array(bbox_array[:, 9, 0]), car_matrix_big) 
+        #     send_array(socket_grid, occupancy_grid.image)
+        # else:
+        #     object_matrix_big = rescale(object_matrix_copy, grid_res/object_res, anti_aliasing=False)
+        #     occupancy_grid.matrix[np.where(object_matrix_big > 0)] = 1
+        #     occupancy_grid.update_image()
+        #     # print(object_matrix_copy.shape)
+        #     send_array(socket_grid, occupancy_grid.image)
 
             # fig2 = plt.figure()
             # plt.imshow(matrix_labels)

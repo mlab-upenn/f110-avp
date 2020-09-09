@@ -11,6 +11,7 @@ import numpy as np
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
 from sensor_msgs.msg import Image
+import random
 
 class visualization_node:
     def __init__(self):
@@ -39,6 +40,7 @@ def add_line(line_msg, ind1, ind2, bbox):
     p2.z = bbox[ind2, 2]
     line_msg.points.append(p1)
     line_msg.points.append(p2)
+    line_msg.pose.orientation.w = 1
     return line_msg
 
 def make_box_msg(bbox, id):
@@ -46,8 +48,6 @@ def make_box_msg(bbox, id):
     line_msg.type = line_msg.LINE_LIST
     line_msg.action = line_msg.ADD
     line_msg.scale.x = 0.01
-    line_msg.scale.y = 0.1
-    line_msg.scale.z = 0.1
     line_msg.color.a = 1
     if id == 1:
         line_msg.color.r = 1
@@ -57,9 +57,16 @@ def make_box_msg(bbox, id):
         line_msg.color.r = 72/255
         line_msg.color.g = 146/255
         line_msg.color.b = 219/255
+    
     line_msg.id = id
-    line_msg.header.frame_id = 'os1_lidar'
+    line_msg.header.frame_id = 'map'
     line_msg.lifetime = rospy.Duration(0.5)
+    if id == 9:
+        line_msg.id = random.randint(10, 20)
+        line_msg.color.r = 100/255
+        line_msg.color.g = 100/255
+        line_msg.color.b = 100/255
+        line_msg.lifetime = rospy.Duration(0.1)
 
     line_msg = add_line(line_msg, 0, 1, bbox)
     line_msg = add_line(line_msg, 1, 2, bbox)
@@ -94,8 +101,14 @@ def make_arrow(bbox, id):
         arrow_msg.color.g = 189/255
         arrow_msg.color.b = 255/255
     arrow_msg.id = id
-    arrow_msg.header.frame_id = 'os1_lidar'
+    arrow_msg.header.frame_id = 'map'
     arrow_msg.lifetime = rospy.Duration(0.5)
+    if id == 9:
+        arrow_msg.id = random.randint(10, 20)
+        arrow_msg.color.r = 100/255
+        arrow_msg.color.g = 100/255
+        arrow_msg.color.b = 100/255
+        arrow_msg.lifetime = rospy.Duration(0.1)
 
     arrow_msg.pose.position.x = bbox[0, 0]
     arrow_msg.pose.position.y = bbox[0, 1]
@@ -127,7 +140,7 @@ def make_arrow_waypoint(waypoints, id):
     arrow_msg.color.g = 166/255
     arrow_msg.color.b = 2/255
     arrow_msg.id = id
-    arrow_msg.header.frame_id = 'os1_lidar'
+    arrow_msg.header.frame_id = 'map'
     arrow_msg.lifetime = rospy.Duration(2)
 
 
@@ -189,6 +202,7 @@ def main():
 
                 arrow_msg = make_arrow(bbox[8:10, :], int(bbox[9, 1]))
                 node.arrow_pub.publish(arrow_msg)
+                rospy.sleep(0.01)
 
         if socket_grid.poll(timeout = 1) != 0:
             grid_image = recv_array(socket_grid)

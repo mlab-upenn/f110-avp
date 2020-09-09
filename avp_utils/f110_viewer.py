@@ -933,10 +933,12 @@ class KittiViewer(QMainWindow):
         scores = scores[keep_list]
         
         num_dt = dt_box_lidar.shape[0]
-        print('num_dt: ', num_dt)
-        self.info('scores', scores)
+        self.info('num_dt', num_dt)
+        
         if num_dt != 0:
-
+            for ind in range(num_dt):
+                self.info('scores', scores[ind])
+                self.info('dt_box_lidar', dt_box_lidar[ind])
             dt_box_color = np.tile(np.array(dt_box_color)[np.newaxis, ...], [num_dt, 1])
             scores_rank = scores / scores[0]
             # if self.w_config.get("DTScoreAsAlpha") and scores is not None:
@@ -945,6 +947,7 @@ class KittiViewer(QMainWindow):
             # dt_box_color = np.concatenate([dt_box_color[:, :3], np.ones((scores[..., np.newaxis].shape))], axis=1)
             self.w_pc_viewer.boxes3d("dt_boxes", dt_boxes_corners, dt_box_color,
                                     self.w_config.get("DTBoxLineWidth"), 1.0)
+            
 
     def plot_pointcloud(self):
         point_color = self.w_config.get("PointColor")[:3]
@@ -989,7 +992,7 @@ class KittiViewer(QMainWindow):
         
         points[:, 0] -= (self.points_range[0] + self.points_range[3]) / 2
         points[:, 1] -= (self.points_range[1] + self.points_range[4]) / 2
-        points[:, 2] -= self.points_range[5]
+        # points[:, 2] -= self.points_range[5]
         
         points[:, 0] += w_x_shift
         points[:, 1] += w_y_shift
@@ -1092,7 +1095,8 @@ class KittiViewer(QMainWindow):
         with self.inference_ctx.ctx():
             predictions_dicts = self.inference_ctx.inference(inputs)
         self.info("detection time:", time.time() - t)
-        self.draw_detection(predictions_dicts[0])
+        if predictions_dicts[0]['scores'] is not None:
+            self.draw_detection(predictions_dicts[0])
 
     def on_LoadInferenceVxNetPressed(self):
         self.on_BuildVxNetPressed()
