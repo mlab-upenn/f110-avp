@@ -24,8 +24,8 @@ class lidar_zmq_node:
         self.x_shift = 0
         self.y_shift = 0
         self.z_shift = 1.6 # mounting height
-        self.y_limit = [1, 3]
-        self.x_limit = [-0.9, 0.9]
+        self.y_limit = [1, 4]
+        self.x_limit = [-1.1, 1.1]
         self.z_limit = [-0.5, 0.3]
         self.count = 0
 
