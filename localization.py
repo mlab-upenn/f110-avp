@@ -12,12 +12,24 @@ from skimage.measure import label
 import avp_utils.avp_utils as avp_utils
 
 # global parameters
+# cars
 control_row = []
-control_row.append([-0.19611251, -0.33483976, -0.0593441 , 0.28])
-control_row.append([0.16445541,  0.02877009, -0.05858788, 0.28])
+control_row.append([-0.21646643, -0.42030889, -0.03246318, -1.7161, 0])
+control_row.append([-0.40238941,  0.11528567, -0.03195321, -1.6161, 0])
 control_row = np.array(control_row)
 print('control_row', control_row.shape)
-ip_car_1 = "tcp://192.168.1.2:5559"
+car_ips = ["tcp://192.168.1.2:5559"]
+
+# point cloud
+x_clip = np.array([-1.1, 1.1])
+y_clip = np.array([-1, 1])
+z_clip = 0.01
+grid_res = 100
+object_res = 55
+K = 0.8 # detection fusion parameter
+matching_distance_threshold = 0.1
+calibration_count = 10
+matching_row = np.zeros((5, 12)) # max of 5 detections for now
 
 class OccupancyGrid():
     def __init__(self, dim1, dim2):
@@ -29,8 +41,8 @@ class OccupancyGrid():
         self.image[np.where(matrix == 0)] = [34, 40, 49] # background
         self.image[np.where(matrix == 1)] = [242, 163, 101] # obstacle
         self.image[np.where(matrix == 2)] = [136, 176, 75] # vehicle
-        self.image[np.where(matrix == 11)] = [236, 236, 236] # box 1
-        self.image[np.where(matrix == 12)] = [72, 146, 219] # box 2
+        self.image[np.where(matrix == 12)] = [236, 236, 236] # box 1
+        self.image[np.where(matrix == 11)] = [72, 146, 219] # box 2
         self.image[np.where(matrix == 19)] = [100, 100, 100] # box for unknown car
         
 
@@ -73,16 +85,33 @@ def find_neighbours(coord_x, coord_y, limit_x, limit_y, option = 0):
 
 def convert_odom(v, omega, theta):
     # print(v, omega, theta)
-    result = np.zeros((3,))
+    result = np.zeros((4,))
     result[0] = -np.sin(theta) * v
     result[1] = -np.cos(theta) * v
-    result[2] = -omega
+    result[2] = 0
+    result[3] = -omega
     return result
+
+def prepare_bbox_array(matching_row, row_ind):
+    bbox_array = np.zeros((10, 3)) 
+    dt_box_lidar = np.zeros((1, 7))
+    dt_box_lidar[0, :3] = matching_row[row_ind, 1:4]
+    dt_box_lidar[0, 3:6] = matching_row[row_ind, 4:7]
+    dt_box_lidar[0, 6] = matching_row[row_ind, 8]
+    dt_boxes_corners = avp_utils.center_to_corner_box3d(
+        dt_box_lidar[:, :3],
+        dt_box_lidar[:, 3:6],
+        dt_box_lidar[:, 6],
+        origin=[0.5, 0.5, 0],
+        axis=2)
+    bbox_array[0:8, :] = dt_boxes_corners
+    bbox_array[8, :] = matching_row[row_ind, 1:4] # center position
+    bbox_array[9, 0] = matching_row[row_ind, 8] # orientation
+    bbox_array[9, 1] = matching_row[row_ind, 0] # calibration
+    return bbox_array
 
 def main():
     np.set_printoptions(threshold=np.inf)
-    # pc_file = '/home/lucerna/MEGA/project/AVP/2427439726050.npy'
-    # pc = np.transpose(np.load(pc_file))
 
     context_cloud = zmq.Context()
     socket_cloud = context_cloud.socket(zmq.SUB)
@@ -98,12 +127,17 @@ def main():
     socket_result.connect("tcp://localhost:5560")
     print("Collecting inference...")
 
-    context_odom = zmq.Context()
-    socket_odom_car_1 = context_odom.socket(zmq.SUB)
-    socket_odom_car_1.setsockopt(zmq.SUBSCRIBE, b"")
-    socket_odom_car_1.setsockopt(zmq.RCVHWM, 1)
-    print("Collecting odom info from car 1...")
-    socket_odom_car_1.connect(ip_car_1)
+    context_odom_list = []
+    socket_odom_car_list = []
+    for ind in range(len(car_ips)):
+        context_odom_list.append(zmq.Context())
+        socket_odom_car_list.append(context_odom_list[ind].socket(zmq.SUB))
+    for ind in range(len(socket_odom_car_list)):
+        socket_odom_car = socket_odom_car_list[ind]
+        socket_odom_car.setsockopt(zmq.SUBSCRIBE, b"")
+        socket_odom_car.setsockopt(zmq.RCVHWM, 1)
+        print("Collecting odom info from car {}...".format(ind))
+        socket_odom_car.connect(car_ips[ind])
 
     context_box = zmq.Context()
     socket_box = context_box.socket(zmq.PUB)
@@ -116,12 +150,6 @@ def main():
     socket_grid.setsockopt(zmq.SNDHWM, 1)
     socket_grid.bind("tcp://*:5558")
     print('Sending occupancy grid')
-
-    x_clip = np.array([-1.1, 1.1])
-    y_clip = np.array([-1, 1])
-    z_clip = 0.01
-    grid_res = 100
-    object_res = 55
 
     # create occupancy grid
     dim_x = int((x_clip[1] - x_clip[0]) * grid_res)
@@ -139,27 +167,9 @@ def main():
     inference_in = None
     odom_info = None
     match_inds = np.zeros((control_row.shape[0],))
-
-    last_orientation = 0
-    last_postion = np.zeros((1, 3))
-    last_time = 0
-    flip_count = 0
-    detection_count = 1
-    calibration_count = 10
-    filter_flag = 0
     first_time = True
-    first_filter_time = 0
-    filter_count = 0
-    matching_row = np.zeros((5, 12))
-    matching_distance_threshold = 0.07
+    bbox_arrays = np.zeros((matching_row.shape[0], 10, 3))
     
-
-    mu_now = np.zeros((4, ))
-    mu_pre = np.zeros((4, ))
-    z_now = np.zeros((4, ))
-    z_pre = np.zeros((4, ))
-    odom_now = np.zeros((4, ))
-    odom_pre = np.zeros((4, ))
     
     while True:
         occupancy_grid = OccupancyGrid( dim_x, dim_y )
@@ -171,18 +181,6 @@ def main():
             pc = pc[np.where( pc[:, 0] < x_clip[1] )]
             pc[:, 2] += -z_clip
             pc = pc[np.where( (pc[:, 2] > 0) )]
-
-            # if first_time:
-            #     x_clip = [np.min(pc[:, 0]), np.max(pc[:, 0])]
-            #     y_clip = [np.min(pc[:, 1]), np.max(pc[:, 1])]
-            #     dim_x = int((x_clip[1] - x_clip[0]) * grid_res)
-            #     dim_y = int((y_clip[1] - y_clip[0]) * grid_res)
-            #     dim_x_object = int((x_clip[1] - x_clip[0]) * object_res)
-            #     dim_y_object = int((y_clip[1] - y_clip[0]) * object_res)
-            #     object_matrix = np.zeros([dim_x_object, dim_y_object])
-            #     object_matrix_copy = object_matrix.copy()
-            #     car_matrix = np.zeros([dim_x_object, dim_y_object])
-            #     car_matrix_object = np.zeros([dim_x_object, dim_y_object])
 
             pc_grid = pc[:, 0:2] # from occupancy grid
             pc_grid[:, 0] = (np.floor(pc_grid[:, 0] * object_res) + dim_x_object/2)
@@ -203,8 +201,10 @@ def main():
             # clean the matching row 
             for row_ind in range(matching_row.shape[0]):
                 if matching_row[row_ind, 0] > 0:
-                    if inference_in[1, 1, 0] - matching_row[row_ind, 7] > 3: # discard the object if we lose track of it for 3 seconds
+                    if inference_in[1, 1, 0] - matching_row[row_ind, 7] > 1: # discard the object if we lose track of it for 1 seconds
+                        # print('discarded', matching_row[row_ind, :])
                         matching_row[row_ind, :] = np.zeros((12))
+                        
 
             num_dt = inference_in[0, 0, 0]
             # looking for matches in the matching_row
@@ -255,15 +255,19 @@ def main():
                 distances = np.sqrt((matching_row[:, 1] - control_row[control_row_ind, 0]) ** 2 + (matching_row[:, 2] - control_row[control_row_ind, 1]) ** 2)
                 matches = np.argsort(distances)
                 if distances[matches[0]] <= matching_distance_threshold:
-                    match_inds[control_row_ind] = control_row_ind
-                    control_row[control_row_ind, :] = matching_row[matches[0], 1:5]
-                    matching_row[matches[0], 0] = control_row_ind + 1
+                    match_inds[control_row_ind] = matches[0]
+                    control_row[control_row_ind, 0:3] = control_row[control_row_ind, 0:3] + K * (matching_row[matches[0], 1:4] - control_row[control_row_ind, 0:3])
+                    control_row[control_row_ind, 3] = control_row[control_row_ind, 3] + K * (matching_row[matches[0], 8] - control_row[control_row_ind, 3])
+                    matching_row[matches[0], 0] = control_row_ind + 1 # index for visualization
+                # print(control_row_ind)
+                # print('matching_row', matching_row[int(match_inds[control_row_ind]), 1:5])
+                # print('control_row', control_row[control_row_ind, 0:5])
 
             # create and send bbox info
-            bbox_arrays = []
-            bbox_array = np.zeros((10, 3))
             for row_ind in range(matching_row.shape[0]):
-                if matching_row[row_ind, 0] == 0:
+                bbox_array = np.zeros((10, 3))
+                if matching_row[row_ind, 0] == 0 or matching_row[row_ind, 0] == 9:
+                    bbox_arrays[row_ind] = bbox_array
                     continue
 
                 if matching_row[row_ind, 10] < calibration_count and matching_row[row_ind, 9] > 0.6:
@@ -271,27 +275,41 @@ def main():
                 elif matching_row[row_ind, 10] == calibration_count:
                     print('Calibrated')
                     matching_row[row_ind, 10] += 1
-                    print('Position:', matching_row[row_ind, 1:5])
+                    print('ID:', matching_row[row_ind, 0])
+                    print('Position:', matching_row[row_ind, 1:4], matching_row[row_ind, 8])
                 
-                dt_box_lidar = np.zeros((1, 7))
-                dt_box_lidar[0, :3] = matching_row[row_ind, 1:4]
-                dt_box_lidar[0, 3:6] = matching_row[row_ind, 4:7]
-                dt_box_lidar[0, 6] = matching_row[row_ind, 8]
-                dt_boxes_corners = avp_utils.center_to_corner_box3d(
-                    dt_box_lidar[:, :3],
-                    dt_box_lidar[:, 3:6],
-                    dt_box_lidar[:, 6],
-                    origin=[0.5, 0.5, 0],
-                    axis=2)
-                bbox_array[0:8, :] = dt_boxes_corners
-                bbox_array[8, :] = matching_row[row_ind, 1:4] # center position
-                bbox_array[9, 0] = matching_row[row_ind, 8] # orientation
-                bbox_array[9, 1] = matching_row[row_ind, 0] # calibration
-                bbox_arrays.append(bbox_array.copy())
+                bbox_arrays[row_ind] = prepare_bbox_array(matching_row, row_ind).copy()
                 # print(bbox_arrays)
-            # print(bbox_arrays)
-            bbox_arrays = np.array(bbox_arrays)
-            send_array(socket_box, bbox_arrays)
+
+        # odometry update
+        control_row_ind = 0
+        socket_odom_car = socket_odom_car_list[control_row_ind] # only have one car for now
+        if socket_odom_car.poll(timeout = 1) != 0:
+            odom_info = recv_array(socket_odom_car).copy()
+            # control_row[control_row_ind] is the mu
+            # matching_row[match_inds[control_row_ind]] is the z
+
+            matching_row_ind = int(match_inds[control_row_ind])
+            linear_speed_correction = 0.8
+            angular_speed_correction = 0.7
+            delta_time_odom = odom_info[2] - control_row[control_row_ind, 4]
+            control_row[control_row_ind, 4] = odom_info[2]
+
+            # predict step
+            if matching_row[matching_row_ind, 7] != 0 and delta_time_odom > 0.01 and delta_time_odom < 0.1:
+                car_movement = convert_odom(odom_info[0] * linear_speed_correction, odom_info[1] * angular_speed_correction, control_row[control_row_ind, 3])
+                # print('delta_time_odom * car_movement', delta_time_odom * car_movement)
+                # print('control_row[control_row_ind, 0:4]', control_row[control_row_ind, 0:4])
+                control_row[control_row_ind, 0:4] = delta_time_odom * car_movement + control_row[control_row_ind, 0:4]
+                matching_row[matching_row_ind, 1:4] = control_row[control_row_ind, 0:3]
+                matching_row[matching_row_ind, 8] = control_row[control_row_ind, 3]
+
+            # create and send bbox info
+            # for control_row_ind in range(len(match_inds)):
+            matching_row_ind = int(match_inds[control_row_ind])
+            bbox_arrays[matching_row_ind] = prepare_bbox_array(matching_row, matching_row_ind).copy()
+        send_array(socket_box, bbox_arrays)
+            
 
         # occupancy grid update
         if first_time == False and pc_grid.shape[0] > 1:

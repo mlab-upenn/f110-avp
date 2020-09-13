@@ -49,11 +49,11 @@ def make_box_msg(bbox, id):
     line_msg.action = line_msg.ADD
     line_msg.scale.x = 0.01
     line_msg.color.a = 1
-    if id == 1:
+    if id == 2:
         line_msg.color.r = 1
         line_msg.color.g = 1
         line_msg.color.b = 1
-    if id == 2:
+    if id == 1:
         line_msg.color.r = 72/255
         line_msg.color.g = 146/255
         line_msg.color.b = 219/255
@@ -92,11 +92,11 @@ def make_arrow(bbox, id):
     arrow_msg.scale.y = 0.02
     arrow_msg.scale.z = 0.02
     arrow_msg.color.a = 1
-    if id == 1:
+    if id == 2:
         arrow_msg.color.r = 1
         arrow_msg.color.g = 1
         arrow_msg.color.b = 1
-    if id == 2:
+    if id == 1:
         arrow_msg.color.r = 122/255
         arrow_msg.color.g = 189/255
         arrow_msg.color.b = 255/255
@@ -179,13 +179,6 @@ def main():
     socket_grid.setsockopt(zmq.RCVHWM, 1)
     print("Collecting occupancy grid...")
     socket_grid.connect("tcp://localhost:5558")
-
-    # context_odom = zmq.Context()
-    # socket_odom = context_odom.socket(zmq.SUB)
-    # socket_odom.setsockopt(zmq.SUBSCRIBE, b"")
-    # socket_odom.setsockopt(zmq.RCVHWM, 1)
-    # print("Collecting odom info...")
-    # socket_odom.connect("tcp://192.168.1.2:5559")
 
     # f = open('way.csv','ab')
     # waypoints = np.loadtxt('/home/lucerna/MEGAsync/project/AVP/car_nodes/way.csv', delimiter=",")

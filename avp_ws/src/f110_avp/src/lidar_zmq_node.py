@@ -23,7 +23,7 @@ class lidar_zmq_node:
         self.roll_rotation = 2.65/180.0*np.pi
         self.x_shift = 0
         self.y_shift = 0
-        self.z_shift = 1.6 # mounting height
+        self.z_shift = 1.81 # mounting height
         self.y_limit = [1, 4]
         self.x_limit = [-1.1, 1.1]
         self.z_limit = [-0.5, 0.3]
