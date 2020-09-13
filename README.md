@@ -2,9 +2,9 @@
 F110 Autonomout Valet Parking with Ouster LiDAR
 
 ## Result
-![Demo](avp_utils/avp2_800.gif)
+Demo with two f110 cars:
 
-Demo with two f110 cars
+![](avp_utils/avp2_800.gif)
 
 ## Installation
 1. Clone this repo.
@@ -14,10 +14,13 @@ Demo with two f110 cars
 5. Be sure to add second.pytorch/ to your PYTHONPATH.
 
 ## Experimental Setup
+System Structure:
 
-![system](avp_utils/system.png)
+![](avp_utils/system.png)
 
-![setup](avp_utils/setup.png)
+Lidar is mounted on a tripod looking down on the cars:
+
+![](avp_utils/setup.png)
 
 ## To Run the Experiment
 
