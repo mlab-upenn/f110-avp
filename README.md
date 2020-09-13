@@ -15,7 +15,7 @@ Demo with two f110 cars
 
 ## Experimental Setup
 
-![system](avp_utils/system.png | width = 800)
+![system](avp_utils/system.png | width=800)
 
 ![setup](avp_utils/setup.png)
 
