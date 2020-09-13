@@ -44,4 +44,10 @@ python3 localization.py
 ### on Vehicle
 
 ## Result
-![](avp_utils/avp2_800.gif)
+![Demo](avp_utils/avp2_800.gif)
+Demo with two f110 cars
+
+![system](avp_utils/system.png)
+
+![setup](avp_utils/setup.png)
+
