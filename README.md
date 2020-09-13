@@ -58,7 +58,7 @@ python3 localization.py
 ### on Vehicle
 1. Copy `car_nodes/odom_zmq_node.py` and `car_nodes/drive_node.py` to the F110 car and compile them.
 
-2. Run `teleop.launch`
+2. Run `teleop.launch`.
 
 3. Run `odom_zmq_node` to send odometry data to the host computer.
 
