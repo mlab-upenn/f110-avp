@@ -44,4 +44,4 @@ python3 localization.py
 ### on Vehicle
 
 ## Result
-![](avp_utils/avp2.gif | width=1000)
+![](avp_utils/avp2_800.gif)
