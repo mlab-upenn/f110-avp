@@ -1,7 +1,3 @@
-require 'kramdown'
-
-Kramdown::Document.new(text).to_html
-
 # F110-AVP
 F110 Autonomout Valet Parking with Ouster LiDAR
 
@@ -19,8 +15,10 @@ Demo with two f110 cars
 
 ## Experimental Setup
 
-![system](avp_utils/system.png){:height="50%" width="50%"}
+System Structure:
+![system](avp_utils/system.png)
 
+Lidar is mounted on a tripod looking down on the cars:
 ![setup](avp_utils/setup.png)
 
 ## To Run the Experiment
