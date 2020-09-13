@@ -40,15 +40,7 @@ class odom_zmq_node:
         self.socket_odom.bind("tcp://*:5559")
         print('Sending odom info...')
 
-#        context_box = zmq.Context()
-#        self.socket_box = context_box.socket(zmq.SUB)
-#        self.socket_box.setsockopt(zmq.SUBSCRIBE, b"")
-#        self.socket_box.setsockopt(zmq.RCVHWM, 1)
-#        self.socket_box.connect("tcp://192.168.1.5:5557")
-#        print("Collecting bboxs...")
-
-        self.f = open('way.csv','ab')
-        self.pose_count = 0
+        self.odom_time = 0
 
     def odom_callback(self, msg):
         odom_info = np.zeros((3, ))
@@ -58,21 +50,11 @@ class odom_zmq_node:
         odom_info[0] = msg.twist.twist.linear.x
         odom_info[1] = msg.twist.twist.angular.z
         odom_info[2] = now.secs + (now.nsecs)/1e9
+        diff_time = odom_info[2] - self.odom_time
+        self.odom_time = odom_info[2]
 
-        send_array(self.socket_odom, odom_info)
-#        print(self.pose_count)
-
-#        if self.socket_box.poll(timeout = 1) != 0:
-#            self.pose_count += 1
-#            bbox = recv_array(self.socket_box)
-#            pose = np.zeros((1, 4))
-#            pose[0, 0:3] = bbox[8, :]
-#            pose[0, 3] = bbox[9, 0]
-#            if self.pose_count == 20:
-#                self.pose_count = 0
-#                np.savetxt(self.f, pose, delimiter=",")
-#                array = np.loadtxt('way.csv', delimiter=",")
-#                print(array)
+        if diff_time < 1 and diff_time > 0.02 and (np.abs(odom_info[0]) > 0.0001 or np.abs(odom_info[1]) > 0.0001):
+            send_array(self.socket_odom, odom_info)
 
         
 def main():
