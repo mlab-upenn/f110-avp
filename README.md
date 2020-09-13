@@ -22,7 +22,7 @@ roslaunch ouster_ros ouster.launch sensor_hostname:=os1-992006000706.local udp_d
 ```
 cd avp_ws
 source devel/setup.bash
-roslaunch avp_nodes.launch
+roslaunch f110_avp avp_nodes.launch
 ```
 
 3. Calibrate the point cloud to the setup. Refer to the report on how to get good detection results.
@@ -44,3 +44,4 @@ python3 localization.py
 ### on Vehicle
 
 ## Result
+![](avp_utils/avp2.gif | width=1000)
