@@ -266,7 +266,7 @@ def main():
             # create and send bbox info
             for row_ind in range(matching_row.shape[0]):
                 bbox_array = np.zeros((10, 3))
-                if matching_row[row_ind, 0] == 0 or matching_row[row_ind, 0] == 9:
+                if matching_row[row_ind, 0] == 0:
                     bbox_arrays[row_ind] = bbox_array
                     continue
 
