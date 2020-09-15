@@ -1,5 +1,5 @@
 # F110-AVP
-F110 Autonomout Valet Parking with Ouster LiDAR
+F110 Autonomous Valet Parking with Ouster LiDAR
 
 [See the report](F110_AVP_Early_Progress_Report.pdf)
 
